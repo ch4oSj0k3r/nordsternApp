@@ -2,7 +2,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+import {PrismaClient} from '@prisma/client'
+
+export async function getStaticProps() {
+  const prisma = new PrismaClient()
+  const posts = await prisma.season.findMany()
+  return {
+    props: {posts},
+  }
+}
+
+export default function Home({posts}) {
+  console.log(posts)
+
   return (
     <div className={styles.container}>
       <Head>
