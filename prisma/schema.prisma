@@ -29,7 +29,7 @@ model Matchday {
 
 model Team {
   id       Int      @id @default(autoincrement())
-  name     String   @db.VarChar(255)
+  name     String   @unique @db.VarChar(255)
   seasons  Season[]
   homeTeam Game[]   @relation("HomeTeam")
   awayTeam Game[]   @relation("AwayTeam")
@@ -39,11 +39,14 @@ model Game {
   id         Int      @id @default(autoincrement())
   matchday   Matchday @relation(fields: [matchdayId], references: [id])
   matchdayId Int
+  gamenumber Int
   homeTeam   Team     @relation(name: "HomeTeam", fields: [homeTeamId], references: [id])
   awayTeam   Team     @relation(name: "AwayTeam", fields: [awayTeamId], references: [id])
   homeTeamId Int
   awayTeamId Int
-  date       DateTime
-  homePoints Int
-  awayPoints Int
+  date       String
+  homePoints Int?
+  awayPoints Int?
+
+  @@unique([matchdayId, gamenumber], name: "UniqueMatchdayGamenumber")
 }
