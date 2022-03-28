@@ -29,7 +29,7 @@ export default async function handler(req, res) {
           const gamenumber = match[1]
           const homeId = await checkTeam(match[2], currentSeasonId)
           const awayId = await checkTeam(match[3], currentSeasonId)
-          const date = match[4] ? new Date(match[4]).getTime().toString() : null
+          const date = match[4]
           const homePoints = match[5]
           const awayPoints = match[6]
 

@@ -9,7 +9,7 @@ export default function GameWidget({headline, game}) {
     return ''
   }
 
-  const date = new Date(parseInt(game.date))
+  const date = new Date(game.date)
   const dateString = date.toLocaleDateString(undefined, {
     day: '2-digit',
     month: '2-digit',
