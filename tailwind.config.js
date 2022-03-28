@@ -4,7 +4,9 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      borderColor: {DEFAULT: '#dc2626'}, // mytheme.primary
+    },
   },
   daisyui: {
     themes: [
