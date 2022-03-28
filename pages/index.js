@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 
-// import readXlsxFile from 'read-excel-file'
+import readXlsxFile from 'read-excel-file'
 
 import {getTable} from '../helpers'
 
@@ -9,11 +9,11 @@ import GameWidget from '../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
-  
-  // const games = await prisma.game.findMany({
-  //   include: {homeTeam: true, awayTeam: true},
-  // })
-  // const table = getTable(games)
+
+  const games = await prisma.game.findMany({
+    include: {homeTeam: true, awayTeam: true},
+  })
+  const table = getTable(games)
 
   const today = new Date().getTime().toString()
   const nextNordsternGame = await prisma.game.findFirst({
@@ -23,8 +23,7 @@ export async function getServerSideProps() {
   })
 
   return {
-    props: {nextNordsternGame}, // will be passed to the page component as props
-    // props: {table, nextNordsternGame}, // will be passed to the page component as props
+    props: {table, nextNordsternGame}, // will be passed to the page component as props
   }
 }
 
@@ -56,6 +55,7 @@ export default function Dashboard({table, nextNordsternGame}) {
           </div>
         </div>
         <div>
+          {/* <input type="file" onChange={readFile} /> */}
           {/* <TableWidget table={table} /> */}
         </div>
       </div>
