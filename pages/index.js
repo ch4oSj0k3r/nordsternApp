@@ -1,10 +1,10 @@
 import {PrismaClient} from '@prisma/client'
 
-import readXlsxFile from 'read-excel-file'
+// import readXlsxFile from 'read-excel-file'
 
 import {getTable} from '../helpers'
 
-// import TableWidget from '../components/Widgets/components/TableWidget'
+import TableWidget from '../components/Widgets/components/TableWidget'
 import GameWidget from '../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps() {
@@ -56,7 +56,7 @@ export default function Dashboard({table, nextNordsternGame}) {
         </div>
         <div>
           {/* <input type="file" onChange={readFile} /> */}
-          {/* <TableWidget table={table} /> */}
+          <TableWidget table={table} />
         </div>
       </div>
     </div>
