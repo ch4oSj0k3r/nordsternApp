@@ -4,16 +4,16 @@ import {PrismaClient} from '@prisma/client'
 
 import {getTable} from '../helpers'
 
-import TableWidget from '../components/Widgets/components/TableWidget'
+// import TableWidget from '../components/Widgets/components/TableWidget'
 import GameWidget from '../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
-  const games = await prisma.game.findMany({
-    include: {homeTeam: true, awayTeam: true},
-  })
-
-  const table = getTable(games)
+  
+  // const games = await prisma.game.findMany({
+  //   include: {homeTeam: true, awayTeam: true},
+  // })
+  // const table = getTable(games)
 
   const today = new Date().getTime().toString()
   const nextNordsternGame = await prisma.game.findFirst({
@@ -23,7 +23,8 @@ export async function getServerSideProps() {
   })
 
   return {
-    props: {table, nextNordsternGame}, // will be passed to the page component as props
+    props: {nextNordsternGame}, // will be passed to the page component as props
+    // props: {table, nextNordsternGame}, // will be passed to the page component as props
   }
 }
 
@@ -55,7 +56,7 @@ export default function Dashboard({table, nextNordsternGame}) {
           </div>
         </div>
         <div>
-          <TableWidget table={table} />
+          {/* <TableWidget table={table} /> */}
         </div>
       </div>
     </div>
