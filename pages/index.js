@@ -47,17 +47,15 @@ export default function Dashboard({table, nextNordsternGame}) {
   // }
 
   return (
-    <div className="container mx-auto py-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <div className="grid grid-cols-1 gap-4">
-            <GameWidget headline="Nächstes Spiel" game={nextNordsternGame} />
-          </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+      <div>
+        <div className="grid grid-cols-1 gap-4">
+          <GameWidget headline="Nächstes Spiel" game={nextNordsternGame} />
         </div>
-        <div>
-          {/* <input type="file" onChange={readFile} /> */}
-          <TableWidget table={table} />
-        </div>
+      </div>
+      <div>
+        {/* <input type="file" onChange={readFile} /> */}
+        <TableWidget table={table} />
       </div>
     </div>
   )

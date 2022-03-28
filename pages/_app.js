@@ -1,17 +1,29 @@
 import Head from 'next/head'
 
+import Navigation from '../components/Layout/Navigation'
+
 import '../styles/globals.css'
 
 function MyApp({Component, pageProps}) {
   return (
-    <div data-theme="mytheme" className="h-screen bg-base-900">
+    <div
+      data-theme="mytheme"
+      className="container mx-auto h-screen bg-base-900"
+    >
       <Head>
         <title>Team Nordstern</title>
         <meta name="description" content="Team Nordstern App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Component {...pageProps} />
+      <div className="flex h-screen flex-col">
+        <div className="grow overflow-y-auto">
+          <Component {...pageProps} />
+        </div>
+        <div className="p-4 self-center ">
+          <Navigation />
+        </div>
+      </div>
     </div>
   )
 }
