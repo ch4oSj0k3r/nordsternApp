@@ -48,7 +48,7 @@ export default function TableWidget({table}) {
   return (
     <Widget>
       <h2 className="card-title">Tabelle</h2>
-      {/* <Table columns={columns} data={table} /> */}
+      <Table columns={columns} data={table} />
     </Widget>
   )
 }
