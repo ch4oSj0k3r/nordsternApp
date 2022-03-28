@@ -1,5 +1,6 @@
 import Head from 'next/head'
 
+import Appbar from '../components/Layout/Appbar'
 import Navigation from '../components/Layout/Navigation'
 
 import '../styles/globals.css'
@@ -17,6 +18,9 @@ function MyApp({Component, pageProps}) {
       </Head>
 
       <div className="flex h-screen flex-col">
+        <div className="p-4 ">
+          <Appbar />
+        </div>
         <div className="grow overflow-y-auto">
           <Component {...pageProps} />
         </div>

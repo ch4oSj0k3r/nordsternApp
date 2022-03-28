@@ -10,12 +10,12 @@ export default function Navigation(props) {
   const navItems = [
     {
       label: 'Home',
-      icon: <AiOutlineHome size="2em" />,
+      icon: <AiOutlineHome />,
       pathname: '/',
     },
     {
       label: 'Login',
-      icon: <AiOutlineLogin size="2em" />,
+      icon: <AiOutlineLogin />,
       pathname: '/login',
       disabled: true,
     },
