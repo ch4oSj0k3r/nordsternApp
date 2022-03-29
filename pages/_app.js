@@ -18,7 +18,7 @@ function MyApp({Component, pageProps}) {
       </Head>
 
       <div className="flex h-screen flex-col">
-        <div className="p-4 ">
+        <div className="p-2 md:p-4">
           <Appbar />
         </div>
         <div className="grow overflow-y-auto">
