@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import Link from 'next/link'
 
 import {PrismaClient} from '@prisma/client'
 import GameWidget from '../../components/Widgets/components/GameWidget'
@@ -16,8 +15,6 @@ export async function getServerSideProps() {
     include: {matchday: true},
     orderBy: {date: 'asc'},
   })
-
-  console.log(nextNordsternGame)
 
   return {
     props: {matchplan, currentMatchday: nextNordsternGame.matchday.matchday}, // will be passed to the page component as props

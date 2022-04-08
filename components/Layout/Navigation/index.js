@@ -2,7 +2,12 @@ import React from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 
-import {AiOutlineHome, AiOutlineLogin, AiTwotoneCalendar} from 'react-icons/ai'
+import {
+  AiOutlineHome,
+  AiOutlineLogin,
+  AiTwotoneCalendar,
+  AiFillTrophy,
+} from 'react-icons/ai'
 
 export default function Navigation(props) {
   const router = useRouter()
@@ -17,6 +22,11 @@ export default function Navigation(props) {
       label: 'Spielplan',
       icon: <AiTwotoneCalendar className="text-lg md:text-2xl" />,
       pathname: '/matchplan',
+    },
+    {
+      label: 'Stats',
+      icon: <AiFillTrophy className="text-lg md:text-2xl" />,
+      pathname: '/stats',
     },
     {
       label: 'Login',
