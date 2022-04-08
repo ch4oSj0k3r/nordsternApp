@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 
 import {PrismaClient} from '@prisma/client'
+import GameWidget from '../../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
@@ -9,18 +10,72 @@ export async function getServerSideProps() {
   const matchplan = await prisma.matchday.findMany({
     include: {games: {include: {homeTeam: true, awayTeam: true}}},
   })
+  const today = new Date()
+  const nextNordsternGame = await prisma.game.findFirst({
+    where: {OR: [{homeTeamId: 5}, {awayTeamId: 5}], date: {gte: today}},
+    include: {matchday: true},
+    orderBy: {date: 'asc'},
+  })
+
+  console.log(nextNordsternGame)
 
   return {
-    props: {matchplan}, // will be passed to the page component as props
+    props: {matchplan, currentMatchday: nextNordsternGame.matchday.matchday}, // will be passed to the page component as props
   }
 }
 
-export default function Matchplan({matchplan}) {
-  console.log(matchplan)
+export default function Matchplan({matchplan, currentMatchday}) {
+  const [matchday, setMatchday] = useState(currentMatchday)
+  const [games, setGames] = useState([])
+
+  useEffect(() => {
+    const games = matchplan.find(md => md.matchday === matchday).games
+    setGames(games)
+  }, [matchplan, matchday])
+
+  const goCurrent = () => {
+    setMatchday(currentMatchday)
+  }
+
+  const goPrevious = () => {
+    let newMatchday = matchday
+    if (matchday === 1) {
+      newMatchday = matchplan.length
+    } else {
+      newMatchday--
+    }
+
+    setMatchday(newMatchday)
+  }
+  const goNext = () => {
+    let newMatchday = matchday
+    if (matchday === matchplan.length) {
+      newMatchday = 1
+    } else {
+      newMatchday++
+    }
+
+    setMatchday(newMatchday)
+  }
 
   return (
-    <div>
-      <Link href="/matchplan/1">Matchplan</Link>
+    <div className="grid grid-cols-1 gap-4">
+      <div className="btn-group justify-self-center">
+        <button className="btn" onClick={goPrevious}>
+          «
+        </button>
+        <button className="btn" onClick={goCurrent}>Spieltag {matchday}</button>
+        <button className="btn" onClick={goNext}>
+          »
+        </button>
+      </div>
+      {games.map(game => (
+        <GameWidget
+          key={game.id}
+          headline={`Spiel ${game.gamenumber}`}
+          game={game}
+        />
+      ))}
     </div>
   )
 }

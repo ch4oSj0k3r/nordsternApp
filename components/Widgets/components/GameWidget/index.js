@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {GiHouse, GiCityCar, GiCalendar} from 'react-icons/gi'
+import {GiHouse, GiCityCar, GiCalendar, GiFinishLine} from 'react-icons/gi'
 
 import Widget from '../..'
 
@@ -33,6 +33,12 @@ export default function GameWidget({headline, game}) {
         <GiCalendar className="inline-block mr-2" />
         {dateString}
       </div>
+      {(game.homePoints || game.awayPoints) && (
+        <div>
+          <GiFinishLine className="inline-block mr-2" />
+          {`Ende ${game.homePoints} : ${game.awayPoints}`}
+        </div>
+      )}
     </Widget>
   )
 }
