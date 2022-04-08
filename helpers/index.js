@@ -70,16 +70,16 @@ export const getTable = games => {
   })
 
   table.sort((i, j) => {
-    if (i.games > j.games) {
-      return -1
-    }
-    if (i.games < j.games) {
-      return 1
-    }
     if (i.points > j.points) {
       return -1
     }
     if (i.points < j.points) {
+      return 1
+    }
+    if (i.games > j.games) {
+      return -1
+    }
+    if (i.games < j.games) {
       return 1
     }
     if (i.diffGames < j.diffGames) {
