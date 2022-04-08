@@ -31,6 +31,7 @@ model Team {
   id       Int      @id @default(autoincrement())
   name     String   @unique @db.VarChar(255)
   seasons  Season[]
+  players  Player[]
   homeTeam Game[]   @relation("HomeTeam")
   awayTeam Game[]   @relation("AwayTeam")
 }
@@ -49,4 +50,32 @@ model Game {
   awayPoints Int?
 
   @@unique([matchdayId, gamenumber], name: "UniqueMatchdayGamenumber")
+}
+
+model Player {
+  id          Int          @id @default(autoincrement())
+  firstname   String
+  lastname    String
+  teamId      Int
+  team        Team         @relation(fields: [teamId], references: [id])
+  memberships Membership[]
+  stats       Stats?
+}
+
+model Stats {
+  id       Int     @id @default(autoincrement())
+  over80   Int
+  over100  Int
+  over140  Int
+  over180  Int
+  playerId Int     @unique
+  player   Player? @relation(fields: [playerId], references: [id])
+}
+
+model Membership {
+  id       Int     @id @default(autoincrement())
+  playerId Int     @unique
+  player   Player  @relation(fields: [playerId], references: [id])
+  month    Int
+  payed    Boolean
 }
