@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react'
+import Link from 'next/link'
 import {PrismaClient} from '@prisma/client'
+
 import Table from '../../components/Table'
 import {addStats} from '../../helpers'
 
@@ -32,7 +34,17 @@ export default function Stats({players}) {
 
   const columns = React.useMemo(
     () => [
-      {Header: 'Name', accessor: 'firstname'},
+      {
+        Header: 'Name',
+        accessor: 'firstname',
+        Cell: props => (
+          <div>
+            <Link href={`/stats/${props.row.original.id}`}>
+              <a>{props.row.original.firstname}</a>
+            </Link>
+          </div>
+        ),
+      },
       {
         Header: () => <div className="text-center">80+</div>,
         accessor: 'player.stats.over80',
