@@ -37,7 +37,8 @@ export async function getServerSideProps({params}) {
 
 export default function PlayerStats({player}) {
   const dataValues = []
-  Object.entries(player.stats).forEach(([key, entry]) => {
+  const stats = player.stats || {}
+  Object.entries(stats).forEach(([key, entry]) => {
     if (key !== 'id') {
       dataValues.push(entry)
     }
