@@ -27,7 +27,7 @@ export async function getServerSideProps({params}) {
 
   const player = await prisma.player.findFirst({
     where: {id: parseInt(playerId)},
-    include: {stats: true},
+    include: {playerStats: true},
   })
 
   return {
@@ -35,16 +35,18 @@ export async function getServerSideProps({params}) {
   }
 }
 
-export default function PlayerStats({player}) {
+export default function PlayerStatsDetail({player}) {
   const dataValues = []
-  const stats = player.stats || {}
+  const stats = player?.playerStats || {}
   Object.entries(stats).forEach(([key, entry]) => {
     if (key !== 'id' && key !== 'playerId') {
+      console.log(key)
       dataValues.push(entry)
     }
   })
+  console.log(dataValues)
   const data = {
-    labels: ['80+', '100+', '120+', '140+', '180'],
+    labels: ['100+', '140+', '180', 'High-Finish'],
     datasets: [
       {
         label: '# Treffer',
@@ -68,7 +70,7 @@ export default function PlayerStats({player}) {
   return (
     <div className="h-full">
       <div>
-        <Link href="/stats" passHref>
+        <Link href="/playerStats" passHref>
           <button className="btn btn-outline">Zurück</button>
         </Link>
       </div>

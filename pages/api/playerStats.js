@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const stats = await prisma.stats.findMany({
+        const stats = await prisma.playerStats.findMany({
           include: {player: true},
         })
         res.status(200).json(stats)
@@ -19,14 +19,14 @@ export default async function handler(req, res) {
       try {
         const {player, type} = req.body
         const defaultVal = {
-          over80: 0,
           over100: 0,
           over140: 0,
           over180: 0,
+          highFinish: 0,
         }
 
-        if (!player.stats) {
-          await prisma.stats.create({
+        if (!player.playerStats) {
+          await prisma.playerStats.create({
             data: {
               ...defaultVal,
               [type]: 1,
@@ -38,10 +38,10 @@ export default async function handler(req, res) {
             },
           })
         } else {
-          await prisma.stats.update({
+          await prisma.playerStats.update({
             where: {playerId: player.id},
             data: {
-              [type]: player.stats[type] + 1,
+              [type]: player.playerStats[type] + 1,
             },
           })
         }

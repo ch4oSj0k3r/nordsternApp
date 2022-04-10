@@ -97,7 +97,7 @@ export const getTable = games => {
 }
 
 export const addStats = data => {
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/stats`, {
+  fetch(`${process.env.NEXT_PUBLIC_API_URL}/playerStats`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
