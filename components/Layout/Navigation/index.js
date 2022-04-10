@@ -26,7 +26,7 @@ export default function Navigation(props) {
     {
       label: 'Stats',
       icon: <AiFillTrophy className="text-lg md:text-2xl" />,
-      pathname: '/stats',
+      pathname: '/playerStats',
     },
     {
       label: 'Login',

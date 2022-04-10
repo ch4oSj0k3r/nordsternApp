@@ -59,17 +59,17 @@ model Player {
   teamId      Int
   team        Team         @relation(fields: [teamId], references: [id])
   memberships Membership[]
-  stats       Stats?
+  playerStats PlayerStats?
 }
 
-model Stats {
-  id       Int     @id @default(autoincrement())
-  over80   Int
-  over100  Int
-  over140  Int
-  over180  Int
-  playerId Int     @unique
-  player   Player? @relation(fields: [playerId], references: [id])
+model PlayerStats {
+  id         Int     @id @default(autoincrement())
+  over100    Int
+  over140    Int
+  over180    Int
+  highFinish Int
+  playerId   Int     @unique
+  player     Player? @relation(fields: [playerId], references: [id])
 }
 
 model Membership {
