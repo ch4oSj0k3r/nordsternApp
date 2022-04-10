@@ -39,7 +39,7 @@ export default function PlayerStats({player}) {
   const dataValues = []
   const stats = player.stats || {}
   Object.entries(stats).forEach(([key, entry]) => {
-    if (key !== 'id') {
+    if (key !== 'id' && key !== 'playerId') {
       dataValues.push(entry)
     }
   })
