@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import {Toaster} from 'react-hot-toast'
 
 import Appbar from '../components/Layout/Appbar'
 import Navigation from '../components/Layout/Navigation'
@@ -11,6 +12,7 @@ function MyApp({Component, pageProps}) {
       data-theme="mytheme"
       className="container mx-auto h-screen bg-base-900"
     >
+      <Toaster position="top-right" reverseOrder={false} />
       <Head>
         <title>Team Nordstern</title>
         <meta name="description" content="Team Nordstern App" />

@@ -79,3 +79,8 @@ model Membership {
   month    Int
   payed    Boolean
 }
+
+model KeepDbAlive {
+  id   Int    @id @default(autoincrement())
+  date String
+}
