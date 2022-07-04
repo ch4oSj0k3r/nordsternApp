@@ -58,11 +58,13 @@ export default function Matchplan({matchplan, currentMatchday}) {
   return (
     <div className="grid grid-cols-1 gap-4">
       <div className="btn-group justify-self-center">
-        <button className="btn" onClick={goPrevious}>
+        <button className="btn text-secondary" onClick={goPrevious}>
           «
         </button>
-        <button className="btn" onClick={goCurrent}>Spieltag {matchday}</button>
-        <button className="btn" onClick={goNext}>
+        <button className="btn text-secondary" onClick={goCurrent}>
+          Spieltag {matchday}
+        </button>
+        <button className="btn text-secondary" onClick={goNext}>
           »
         </button>
       </div>
