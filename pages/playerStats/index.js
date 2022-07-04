@@ -51,7 +51,7 @@ export default function PlayerStats({players}) {
         Cell: props => (
           <div className="text-center">
             <button
-              className="btn p-2 md:p-4"
+              className="btn text-secondary p-2 md:p-4"
               onClick={() => add100(props.row.original)}
             >
               100+
@@ -65,7 +65,7 @@ export default function PlayerStats({players}) {
         Cell: props => (
           <div className="text-center">
             <button
-              className="btn p-2 md:p-4"
+              className="btn text-secondary p-2 md:p-4"
               onClick={() => add140(props.row.original)}
             >
               140+
@@ -79,7 +79,7 @@ export default function PlayerStats({players}) {
         Cell: props => (
           <div className="text-center">
             <button
-              className="btn p-2 md:p-4"
+              className="btn text-secondary p-2 md:p-4"
               onClick={() => add180(props.row.original)}
             >
               180
@@ -98,7 +98,7 @@ export default function PlayerStats({players}) {
         Cell: props => (
           <div className="text-center">
             <button
-              className="btn p-2 md:p-4"
+              className="btn text-secondary p-2 md:p-4"
               onClick={() => addHF(props.row.original)}
             >
               <span className="block md:hidden">HF</span>

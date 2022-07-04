@@ -10,7 +10,7 @@ function MyApp({Component, pageProps}) {
   return (
     <div
       data-theme="mytheme"
-      className="container mx-auto h-screen bg-base-900"
+      className="container mx-auto h-screen bg-base-100 text-secondary"
     >
       <Toaster position="top-right" reverseOrder={false} />
       <Head>
