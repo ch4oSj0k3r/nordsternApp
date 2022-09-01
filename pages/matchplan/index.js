@@ -6,8 +6,11 @@ import GameWidget from '../../components/Widgets/components/GameWidget'
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
 
+  const seasons = await prisma.season.findMany()
+  const currentSeasonId = seasons[seasons.length - 1].id
   const matchplan = await prisma.matchday.findMany({
     include: {games: {include: {homeTeam: true, awayTeam: true}}},
+    where: {seasonId: currentSeasonId},
   })
   const today = new Date()
   const nextNordsternGame = await prisma.game.findFirst({
