@@ -6,8 +6,11 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
+        const seasons = await prisma.season.findMany()
+        const currentSeasonId = seasons[seasons.length - 1].id
         const schedule = await prisma.game.findMany({
-          include: {homeTeam: true, awayTeam: true},
+          include: {homeTeam: true, awayTeam: true, matchday: true},
+          where: {matchday: {is: {seasonId: currentSeasonId}}},
         })
         res.status(200).json(schedule)
       } catch (e) {

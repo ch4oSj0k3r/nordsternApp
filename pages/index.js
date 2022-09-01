@@ -10,8 +10,11 @@ import GameWidget from '../components/Widgets/components/GameWidget'
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
 
+  const seasons = await prisma.season.findMany()
+  const currentSeasonId = seasons[seasons.length - 1].id
   const games = await prisma.game.findMany({
-    include: {homeTeam: true, awayTeam: true},
+    include: {homeTeam: true, awayTeam: true, matchday: true},
+    where: {matchday: {is: {seasonId: currentSeasonId}}},
   })
   const table = getTable(games)
 
