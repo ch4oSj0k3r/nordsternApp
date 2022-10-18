@@ -76,6 +76,7 @@ export default function Matchplan({matchplan, currentMatchday}) {
           key={game.id}
           headline={`Spiel ${game.gamenumber}`}
           game={game}
+          editable
         />
       ))}
     </div>
