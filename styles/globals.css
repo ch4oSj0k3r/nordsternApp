@@ -18,3 +18,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.card-title {
+  margin-bottom: 0 !important;
+}
