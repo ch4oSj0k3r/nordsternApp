@@ -24,9 +24,9 @@ export const getTable = games => {
     let homeIndex = table.findIndex(team => team.id === game.homeTeamId)
     if (homeIndex != -1) {
       let home = table[homeIndex]
-      home.points += homePoints
-      ;(home.games += homePoints || awayPoints ? 1 : 0),
-        (home.wins += homePoints >= 2 ? 1 : 0)
+      home.points += game.penalty ? 0 : homePoints
+      home.games += homePoints || awayPoints ? 1 : 0
+      home.wins += homePoints >= 2 ? 1 : 0
       home.losses += awayPoints >= 2 ? 1 : 0
       home.winGames += game.homePoints
       home.lossGames += game.awayPoints
@@ -36,7 +36,7 @@ export const getTable = games => {
         id: game.homeTeamId,
         name: game.homeTeam.name,
         games: homePoints || awayPoints ? 1 : 0,
-        points: homePoints,
+        points: game.penalty ? 0 : homePoints,
         wins: homePoints >= 2 ? 1 : 0,
         losses: awayPoints >= 2 ? 1 : 0,
         winGames: game.homePoints,
@@ -47,9 +47,9 @@ export const getTable = games => {
     let awayIndex = table.findIndex(team => team.id === game.awayTeamId)
     if (awayIndex != -1) {
       let away = table[awayIndex]
-      away.points += awayPoints
-      ;(away.games += homePoints || awayPoints ? 1 : 0),
-        (away.wins += awayPoints >= 2 ? 1 : 0)
+      away.points += game.penalty ? 0 : awayPoints
+      away.games += homePoints || awayPoints ? 1 : 0
+      away.wins += awayPoints >= 2 ? 1 : 0
       away.losses += homePoints >= 2 ? 1 : 0
       away.winGames += game.awayPoints
       away.lossGames += game.homePoints
@@ -59,7 +59,7 @@ export const getTable = games => {
         id: game.awayTeamId,
         name: game.awayTeam.name,
         games: homePoints || awayPoints ? 1 : 0,
-        points: awayPoints,
+        points: game.penalty ? 0 : awayPoints,
         wins: awayPoints >= 2 ? 1 : 0,
         losses: homePoints >= 2 ? 1 : 0,
         winGames: game.awayPoints,

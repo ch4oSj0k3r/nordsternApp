@@ -48,6 +48,7 @@ model Game {
   date       String
   homePoints Int?
   awayPoints Int?
+  penalty    Boolean  @default(false)
 
   @@unique([matchdayId, gamenumber], name: "UniqueMatchdayGamenumber")
 }
