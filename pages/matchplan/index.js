@@ -20,7 +20,7 @@ export async function getServerSideProps() {
   })
 
   return {
-    props: {matchplan, currentMatchday: nextNordsternGame.matchday.matchday}, // will be passed to the page component as props
+    props: {matchplan, currentMatchday: nextNordsternGame?.matchday?.matchday || 1}, // will be passed to the page component as props
   }
 }
 
