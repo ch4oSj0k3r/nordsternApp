@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 
 import {PrismaClient} from '@prisma/client'
+import Link from 'next/link'
+import {GiCalendar} from 'react-icons/gi'
+
 import GameWidget from '../../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps() {
@@ -20,7 +23,10 @@ export async function getServerSideProps() {
   })
 
   return {
-    props: {matchplan, currentMatchday: nextNordsternGame?.matchday?.matchday || 1}, // will be passed to the page component as props
+    props: {
+      matchplan,
+      currentMatchday: nextNordsternGame?.matchday?.matchday || 1,
+    }, // will be passed to the page component as props
   }
 }
 
@@ -79,6 +85,11 @@ export default function Matchplan({matchplan, currentMatchday}) {
           editable
         />
       ))}
+      <div className="w-50 justify-self-center">
+        <div className="btn text-secondary gap-2">
+          <GiCalendar /><Link href="/api/ical">Exportieren</Link>
+        </div>
+      </div>
     </div>
   )
 }
