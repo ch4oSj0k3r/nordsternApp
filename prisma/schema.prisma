@@ -1,15 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+generator client {
+  provider = "prisma-client-js"
 }
 
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Season {
@@ -21,9 +17,9 @@ model Season {
 
 model Matchday {
   id       Int    @id @default(autoincrement())
-  season   Season @relation(fields: [seasonId], references: [id])
   seasonId Int
   matchday Int
+  season   Season @relation(fields: [seasonId], references: [id])
   games    Game[]
 }
 
@@ -38,17 +34,17 @@ model Team {
 
 model Game {
   id         Int      @id @default(autoincrement())
-  matchday   Matchday @relation(fields: [matchdayId], references: [id])
   matchdayId Int
   gamenumber Int
-  homeTeam   Team     @relation(name: "HomeTeam", fields: [homeTeamId], references: [id])
-  awayTeam   Team     @relation(name: "AwayTeam", fields: [awayTeamId], references: [id])
   homeTeamId Int
   awayTeamId Int
   date       String
   homePoints Int?
   awayPoints Int?
   penalty    Boolean  @default(false)
+  matchday   Matchday @relation(fields: [matchdayId], references: [id])
+  homeTeam   Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam   Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
 
   @@unique([matchdayId, gamenumber], name: "UniqueMatchdayGamenumber")
 }
@@ -76,12 +72,21 @@ model PlayerStats {
 model Membership {
   id       Int     @id @default(autoincrement())
   playerId Int     @unique
-  player   Player  @relation(fields: [playerId], references: [id])
   month    Int
   payed    Boolean
+  player   Player  @relation(fields: [playerId], references: [id])
 }
 
 model KeepDbAlive {
   id   Int    @id @default(autoincrement())
   date String
+}
+
+model SeasonToTeam {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_SeasonToTeam_AB_unique")
+  @@index([B], map: "_SeasonToTeam_B_index")
+  @@map("_SeasonToTeam")
 }
