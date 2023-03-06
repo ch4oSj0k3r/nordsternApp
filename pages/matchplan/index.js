@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 import {PrismaClient} from '@prisma/client'
 import Link from 'next/link'
+import {useSession} from 'next-auth/react'
 import {GiCalendar} from 'react-icons/gi'
 
 import GameWidget from '../../components/Widgets/components/GameWidget'
@@ -31,6 +32,7 @@ export async function getServerSideProps() {
 }
 
 export default function Matchplan({matchplan, currentMatchday}) {
+  const {data: session} = useSession()
   const [matchday, setMatchday] = useState(currentMatchday)
   const [games, setGames] = useState([])
 
@@ -82,12 +84,13 @@ export default function Matchplan({matchplan, currentMatchday}) {
           key={game.id}
           headline={`Spiel ${game.gamenumber}`}
           game={game}
-          editable
+          editable={session && session.user}
         />
       ))}
       <div className="w-50 justify-self-center">
         <div className="btn text-secondary gap-2">
-          <GiCalendar /><Link href="/api/ical">Exportieren</Link>
+          <GiCalendar />
+          <Link href="/api/ical">Exportieren</Link>
         </div>
       </div>
     </div>

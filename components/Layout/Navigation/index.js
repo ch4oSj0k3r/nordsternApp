@@ -1,16 +1,19 @@
 import React from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
+import {signIn, signOut, useSession} from 'next-auth/react'
 
 import {
   AiOutlineHome,
   AiOutlineLogin,
+  AiOutlineLogout,
   AiTwotoneCalendar,
   AiFillTrophy,
 } from 'react-icons/ai'
 
 export default function Navigation(props) {
   const router = useRouter()
+  const {data: session} = useSession()
 
   const navItems = [
     {
@@ -23,18 +26,26 @@ export default function Navigation(props) {
       icon: <AiTwotoneCalendar className="text-lg md:text-2xl" />,
       pathname: '/matchplan',
     },
-    {
+  ]
+
+  if (session && session.user) {
+    navItems.push({
       label: 'Stats',
       icon: <AiFillTrophy className="text-lg md:text-2xl" />,
       pathname: '/playerStats',
-    },
-    {
+    })
+    navItems.push({
+      label: 'Logout',
+      icon: <AiOutlineLogout className="text-lg md:text-2xl" />,
+      onClick: () => signOut(),
+    })
+  } else {
+    navItems.push({
       label: 'Login',
       icon: <AiOutlineLogin className="text-lg md:text-2xl" />,
-      pathname: '/login',
-      disabled: true,
-    },
-  ]
+      onClick: () => signIn(),
+    })
+  }
 
   return (
     <ul className="menu menu-horizontal bg-base-100 text-secondary rounded-box">
@@ -44,8 +55,9 @@ export default function Navigation(props) {
             key={`navItem_${index}`}
             className={item.disabled ? 'disabled' : ''}
           >
-            <Link href={!item.disabled ? item.pathname : ''}>
+            <Link href={!item.disabled && item.pathname ? item.pathname : ''}>
               <a
+                onClick={item.onClick}
                 className={`border-2 text-secondary ${
                   router.pathname === item.pathname ? 'active' : ''
                 } ${index === 0 ? 'border-l-2' : 'border-l-0'}`}
