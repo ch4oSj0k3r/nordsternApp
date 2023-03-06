@@ -1,3 +1,4 @@
+import {getSession} from 'next-auth/react'
 import {PrismaClient} from '@prisma/client'
 
 // import readXlsxFile from 'read-excel-file'
@@ -7,8 +8,10 @@ import {getTable} from '../helpers'
 import TableWidget from '../components/Widgets/components/TableWidget'
 import GameWidget from '../components/Widgets/components/GameWidget'
 
-export async function getServerSideProps() {
+export async function getServerSideProps(params) {
   const prisma = new PrismaClient()
+
+  const session = await getSession(params)
 
   const seasons = await prisma.season.findMany()
   const currentSeasonId = seasons[seasons.length - 1].id
@@ -26,11 +29,11 @@ export async function getServerSideProps() {
   })
 
   return {
-    props: {table, nextNordsternGame}, // will be passed to the page component as props
+    props: {session, table, nextNordsternGame}, // will be passed to the page component as props
   }
 }
 
-export default function Dashboard({table, nextNordsternGame}) {
+export default function Dashboard({table, session, nextNordsternGame}) {
   // const readFile = e => {
   //   readXlsxFile(e.target.files[0]).then(rows => {
   //     fetch('http://localhost:3000/api/schedule', {
