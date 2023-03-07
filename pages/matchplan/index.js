@@ -6,6 +6,7 @@ import {useSession} from 'next-auth/react'
 import {GiCalendar} from 'react-icons/gi'
 
 import GameWidget from '../../components/Widgets/components/GameWidget'
+import {activeTeamId} from '../../helpers'
 
 export async function getServerSideProps() {
   const prisma = new PrismaClient()
@@ -18,7 +19,10 @@ export async function getServerSideProps() {
   })
   const today = new Date()
   const nextNordsternGame = await prisma.game.findFirst({
-    where: {OR: [{homeTeamId: 4}, {awayTeamId: 4}], date: {gte: today}},
+    where: {
+      OR: [{homeTeamId: activeTeamId}, {awayTeamId: activeTeamId}],
+      date: {gte: today},
+    },
     include: {matchday: true},
     orderBy: {date: 'asc'},
   })
@@ -72,9 +76,14 @@ export default function Matchplan({matchplan, currentMatchday}) {
         <button className="btn text-secondary" onClick={goPrevious}>
           «
         </button>
-        <button className="btn text-secondary" onClick={goCurrent}>
+        <button className="btn text-primary" onClick={goCurrent}>
           Spieltag {matchday}
         </button>
+        <Link href="/api/ical" passHref>
+          <button className="btn text-primary">
+            <GiCalendar className="inline-block mr-2" /> Export
+          </button>
+        </Link>
         <button className="btn text-secondary" onClick={goNext}>
           »
         </button>
@@ -87,12 +96,6 @@ export default function Matchplan({matchplan, currentMatchday}) {
           editable={session && session.user}
         />
       ))}
-      <div className="w-50 justify-self-center">
-        <div className="btn text-secondary gap-2">
-          <GiCalendar />
-          <Link href="/api/ical">Exportieren</Link>
-        </div>
-      </div>
     </div>
   )
 }

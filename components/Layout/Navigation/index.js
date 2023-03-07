@@ -48,7 +48,7 @@ export default function Navigation(props) {
   }
 
   return (
-    <ul className="menu menu-horizontal bg-base-100 text-secondary rounded-box">
+    <ul className="menu menu-horizontal bg-base-100 rounded-box">
       {navItems.map((item, index) => {
         return (
           <li
@@ -58,7 +58,7 @@ export default function Navigation(props) {
             <Link href={!item.disabled && item.pathname ? item.pathname : ''}>
               <a
                 onClick={item.onClick}
-                className={`border-2 text-secondary ${
+                className={`border-2 ${
                   router.pathname === item.pathname ? 'active' : ''
                 } ${index === 0 ? 'border-l-2' : 'border-l-0'}`}
               >

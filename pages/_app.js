@@ -10,15 +10,11 @@ import '../styles/globals.css'
 function MyApp({Component, pageProps: {session, ...pageProps}}) {
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
-      <div
-        data-theme="mytheme"
-        className="container mx-auto h-screen bg-base-100 text-secondary"
-      >
+      <div data-theme="mytheme" className="container mx-auto h-screen">
         <Toaster position="top-right" reverseOrder={false} />
         <Head>
           <title>Team Nordstern</title>
           <meta name="description" content="Team Nordstern App" />
-          <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <div className="flex h-screen flex-col">

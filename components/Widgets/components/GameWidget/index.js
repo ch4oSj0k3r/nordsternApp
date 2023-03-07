@@ -11,7 +11,7 @@ import {
 } from 'react-icons/gi'
 
 import Widget from '../..'
-import {updateGame} from '../../../../helpers'
+import {activeTeamId, updateGame} from '../../../../helpers'
 
 export default function GameWidget({headline, game, editable}) {
   const [editMode, setEditMode] = useState(false)
@@ -76,7 +76,7 @@ export default function GameWidget({headline, game, editable}) {
       <div className="flex items-center">
         {headline && (
           <div className="grow">
-            <h2 className="card-title">{headline}</h2>
+            <h2 className="card-title text-primary">{headline}</h2>
           </div>
         )}
         {editable && (
@@ -89,21 +89,25 @@ export default function GameWidget({headline, game, editable}) {
           </div>
         )}
       </div>
-      <div>
-        <GiHouse className="inline-block mr-2" />
+      <div
+        className={`${game.homeTeam.id === activeTeamId ? 'text-accent' : ''}`}
+      >
+        <GiHouse className="text-accent inline-block mr-2" />
         {game.homeTeam.name}
       </div>
-      <div>
-        <GiCityCar className="inline-block mr-2" />
+      <div
+        className={`${game.awayTeam.id === activeTeamId ? 'text-accent' : ''}`}
+      >
+        <GiCityCar className="text-accent inline-block mr-2" />
         {game.awayTeam.name}
       </div>
       <div>
-        <GiCalendar className="inline-block mr-2" />
+        <GiCalendar className="text-accent inline-block mr-2" />
         {dateString}
       </div>
       {!editMode && (homePoints || awayPoints) && (
         <div>
-          <GiFinishLine className="inline-block mr-2" />
+          <GiFinishLine className="text-accent inline-block mr-2" />
           {`Ende ${homePoints} : ${awayPoints}`}
         </div>
       )}

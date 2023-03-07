@@ -38,18 +38,18 @@ export default function Appbar() {
   return (
     <div className="navbar">
       <div className="flex-1">
-        <h1 className="normal-case text-xl md:text-2xl">Team Nordstern</h1>
+        <h1 className="normal-case text-primary text-xl md:text-2xl">
+          Team Nordstern
+        </h1>
       </div>
       <div className="flex-none">
-        <label className="avatar">
-          <div className="w-20 md:w-24 rounded-full shadow shadow-primary">
-            <Image
-              src={logo}
-              alt="logo"
-              onClick={() => setCounter(counter + 1)}
-            />
-          </div>
-        </label>
+        <div className="w-24 md:w-32">
+          <Image
+            src={logo}
+            alt="logo"
+            onClick={() => setCounter(counter + 1)}
+          />
+        </div>
       </div>
     </div>
   )

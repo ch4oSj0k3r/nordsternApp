@@ -1,3 +1,5 @@
+export const activeTeamId = 4
+
 export const getTable = games => {
   let table = []
   games.forEach(game => {

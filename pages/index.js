@@ -3,7 +3,7 @@ import {PrismaClient} from '@prisma/client'
 
 // import readXlsxFile from 'read-excel-file'
 
-import {getTable} from '../helpers'
+import {activeTeamId, getTable} from '../helpers'
 
 import TableWidget from '../components/Widgets/components/TableWidget'
 import GameWidget from '../components/Widgets/components/GameWidget'
@@ -23,7 +23,7 @@ export async function getServerSideProps(params) {
 
   const today = new Date()
   const nextNordsternGame = await prisma.game.findFirst({
-    where: {OR: [{homeTeamId: 4}, {awayTeamId: 4}], date: {gte: today}},
+    where: {OR: [{homeTeamId: activeTeamId}, {awayTeamId: activeTeamId}], date: {gte: today}},
     include: {homeTeam: true, awayTeam: true},
     orderBy: {date: 'asc'},
   })

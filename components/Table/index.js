@@ -1,6 +1,8 @@
 import React from 'react'
 import {useTable} from 'react-table'
 
+import {activeTeamId} from '../../helpers'
+
 export default function Table({columns, data}) {
   const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} =
     useTable({
@@ -29,10 +31,22 @@ export default function Table({columns, data}) {
           {rows.map((row, i) => {
             prepareRow(row)
             return (
-              <tr key={i} {...row.getRowProps()}>
+              <tr
+                key={i}
+                {...row.getRowProps()}
+                className={`${
+                  row.original.id === activeTeamId
+                    ? 'text-accent font-bold'
+                    : ''
+                }`}
+              >
                 {row.cells.map((cell, i) => {
                   return (
-                    <td key={i} {...cell.getCellProps()} className="whitespace-normal">
+                    <td
+                      key={i}
+                      {...cell.getCellProps()}
+                      className="whitespace-normal"
+                    >
                       {cell.render('Cell')}
                     </td>
                   )
