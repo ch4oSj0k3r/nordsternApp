@@ -5,25 +5,19 @@ module.exports = {
   ],
   theme: {
     extend: {
-      borderColor: {DEFAULT: '#dc2626'}, // mytheme.primary
+      borderColor: {DEFAULT: '#e36e00'}, // mytheme.primary
     },
   },
   daisyui: {
     themes: [
       {
         mytheme: {
-          primary: '#b91c1c',
-          secondary: '#ffffff',
-          accent: '#9ca3af',
-          neutral: '#b91c1c',
-          'base-100': '#111111',
-          info: '#6EA7D4',
-          success: '#28AF84',
-          warning: '#F0AA14',
-          error: '#F96C5D',
+        ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
+          primary: '#e36e00',
+          secondary: '#912e00',
+          accent: '#a6302e',
         },
       },
-      'cyberpunk',
     ],
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
