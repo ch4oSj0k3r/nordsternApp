@@ -11,10 +11,11 @@ export default async function handler(req, res) {
         let players = []
         if (withStats) {
           players = await prisma.player.findMany({
+            where: {active: true},
             include: {playerStats: true},
           })
         } else {
-          players = await prisma.player.findMany({})
+          players = await prisma.player.findMany({where: {active: true}})
         }
 
         res.status(200).json(players)

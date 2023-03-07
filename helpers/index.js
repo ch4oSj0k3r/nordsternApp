@@ -99,7 +99,7 @@ export const getTable = games => {
 }
 
 export const addStats = data => {
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/playerStats`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/playerStats`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -111,7 +111,7 @@ export const addStats = data => {
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
-  })
+  }).then(res => res.json())
 }
 
 export const updateGame = (gameId, data) => {
