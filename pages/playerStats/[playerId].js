@@ -40,19 +40,17 @@ export default function PlayerStatsDetail({player}) {
   const stats = player?.playerStats || {}
   Object.entries(stats).forEach(([key, entry]) => {
     if (key !== 'id' && key !== 'playerId') {
-      console.log(key)
       dataValues.push(entry)
     }
   })
-  console.log(dataValues)
   const data = {
     labels: ['100+', '140+', '180', 'High-Finish'],
     datasets: [
       {
         label: '# Treffer',
         data: dataValues,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(227, 110, 0, .2)',
+        borderColor: 'rgb(227, 110, 0)',
         borderWidth: 1,
       },
     ],
@@ -60,9 +58,24 @@ export default function PlayerStatsDetail({player}) {
 
   const options = {
     maintainAspectRatio: false,
-    scale: {
-      gridLines: {
-        color: ['red'],
+    scales: {
+      r: {
+        angleLines: {
+          color: '#a6302e',
+        },
+        grid: {
+          color: '#a6302e',
+        },
+        pointLabels: {
+          color: '#e36e00',
+        },
+        ticks: {
+          //   showLabelBackdrop: false,
+          color: '#e36e00',
+          backdropColor: '#000000',
+          z: 100,
+          stepSize: 1,
+        },
       },
     },
   }
@@ -74,7 +87,9 @@ export default function PlayerStatsDetail({player}) {
           <button className="btn btn-outline">Zurück</button>
         </Link>
       </div>
-      <Radar options={options} data={data} />
+      <div className="h-3/4">
+        <Radar options={options} data={data} />
+      </div>
     </div>
   )
 }

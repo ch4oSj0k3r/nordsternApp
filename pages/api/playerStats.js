@@ -46,7 +46,12 @@ export default async function handler(req, res) {
           })
         }
 
-        res.status(200)
+        const players = await prisma.player.findMany({
+          where: {teamId: 4, active: true},
+          include: {playerStats: true},
+        })
+
+        res.status(200).json(players)
       } catch (e) {
         console.error('Request error', e)
         res.status(500).json({error: 'Error fetching posts'})
