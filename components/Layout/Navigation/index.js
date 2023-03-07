@@ -26,14 +26,14 @@ export default function Navigation(props) {
       icon: <AiTwotoneCalendar className="text-lg md:text-2xl" />,
       pathname: '/matchplan',
     },
-  ]
-
-  if (session && session.user) {
-    navItems.push({
+    {
       label: 'Stats',
       icon: <AiFillTrophy className="text-lg md:text-2xl" />,
       pathname: '/playerStats',
-    })
+    },
+  ]
+
+  if (session && session.user) {
     navItems.push({
       label: 'Logout',
       icon: <AiOutlineLogout className="text-lg md:text-2xl" />,
