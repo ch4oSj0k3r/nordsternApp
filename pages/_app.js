@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import {Toaster} from 'react-hot-toast'
-import {getSession, SessionProvider} from 'next-auth/react'
+import {SessionProvider} from 'next-auth/react'
 
 import Appbar from '../components/Layout/Appbar'
 import Navigation from '../components/Layout/Navigation'
