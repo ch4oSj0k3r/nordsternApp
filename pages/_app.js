@@ -18,13 +18,13 @@ function MyApp({Component, pageProps: {session, ...pageProps}}) {
         </Head>
 
         <div className="flex h-screen flex-col">
-          <div className="p-2 md:p-4">
+          <div>
             <Appbar />
           </div>
           <div className="grow overflow-y-auto">
             <Component {...pageProps} />
           </div>
-          <div className="p-4 self-center ">
+          <div className="xl:flex xl:justify-center">
             <Navigation />
           </div>
         </div>

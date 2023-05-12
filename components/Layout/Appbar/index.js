@@ -36,9 +36,9 @@ export default function Appbar() {
   }, [counter, setCounter, setKeepDbAlive])
 
   return (
-    <div className="navbar">
+    <div className="navbar mb-2 md:mb-4 bg-primary border-b-4 border-accent">
       <div className="flex-1">
-        <h1 className="normal-case text-primary text-xl md:text-2xl">
+        <h1 className="normal-case text-accent text-xl md:text-2xl">
           Team Nordstern
         </h1>
       </div>
