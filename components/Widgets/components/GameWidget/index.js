@@ -25,6 +25,7 @@ export default function GameWidget({headline, game, editable}) {
 
   const date = new Date(game.date)
   const dateString = date.toLocaleDateString(undefined, {
+    weekday: 'short',
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',

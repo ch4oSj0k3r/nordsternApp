@@ -9,7 +9,7 @@ import '../styles/globals.css'
 
 function MyApp({Component, pageProps: {session, ...pageProps}}) {
   return (
-    <SessionProvider session={session} refetchInterval={5 * 60}>
+    <SessionProvider session={session} refetchInterval={180 * 60}>
       <div data-theme="mytheme" className="container mx-auto h-screen">
         <Toaster position="top-right" reverseOrder={false} />
         <Head>

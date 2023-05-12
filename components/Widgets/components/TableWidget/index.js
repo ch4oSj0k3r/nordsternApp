@@ -37,7 +37,7 @@ export default function TableWidget({table}) {
         ),
       },
       {
-        Header: () => <div style={{textAlign: 'center'}}>Pkte</div>,
+        Header: () => <div style={{textAlign: 'center'}}>Pkt</div>,
         accessor: 'points',
         Cell: props => <div style={{textAlign: 'center'}}>{props.value}</div>,
       },
