@@ -1,4 +1,4 @@
-export const activeTeamId = 4
+export const activeTeamId = 6
 
 export const getTable = games => {
   let table = []
