@@ -1,40 +1,43 @@
-import {getSession} from 'next-auth/react'
-import {PrismaClient} from '@prisma/client'
+import { getSession } from 'next-auth/react'
+import { PrismaClient } from '@prisma/client'
 
 /*import readXlsxFile from 'read-excel-file'*/
 
-import {activeTeamId, getTable} from '../helpers'
+import { activeTeamId, getTable } from '../helpers'
 
 import TableWidget from '../components/Widgets/components/TableWidget'
 import GameWidget from '../components/Widgets/components/GameWidget'
 
 export async function getServerSideProps(params) {
-  const prisma = new PrismaClient()
+    const prisma = new PrismaClient()
 
-  const session = await getSession(params)
+    const session = await getSession(params)
 
-  const seasons = await prisma.season.findMany()
-  const currentSeasonId = seasons[seasons.length - 1].id
-  const games = await prisma.game.findMany({
-    include: {homeTeam: true, awayTeam: true, matchday: true},
-    where: {matchday: {is: {seasonId: currentSeasonId}}},
-  })
-  const table = getTable(games)
+    const seasons = await prisma.season.findMany()
+    const currentSeasonId = seasons[seasons.length - 1].id
+    const games = await prisma.game.findMany({
+        include: { homeTeam: true, awayTeam: true, matchday: true },
+        where: { matchday: { is: { seasonId: currentSeasonId } } },
+    })
+    const table = getTable(games)
 
-  const today = new Date()
-  const nextNordsternGame = await prisma.game.findFirst({
-    where: {OR: [{homeTeamId: activeTeamId}, {awayTeamId: activeTeamId}], date: {gte: today}},
-    include: {homeTeam: true, awayTeam: true},
-    orderBy: {date: 'asc'},
-  })
+    const today = new Date()
+    const nextNordsternGame = await prisma.game.findFirst({
+        where: {
+            OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
+            date: { gte: today },
+        },
+        include: { homeTeam: true, awayTeam: true },
+        orderBy: { date: 'asc' },
+    })
 
-  return {
-    props: {session, table, nextNordsternGame}, // will be passed to the page component as props
-  }
+    return {
+        props: { session, table, nextNordsternGame }, // will be passed to the page component as props
+    }
 }
 
-export default function Dashboard({table, session, nextNordsternGame}) {
-   /*const readFile = e => {
+export default function Dashboard({ table, session, nextNordsternGame }) {
+    /*const readFile = e => {
      readXlsxFile(e.target.files[0]).then(rows => {
        fetch('http://localhost:3000/api/schedule', {
          method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -52,23 +55,26 @@ export default function Dashboard({table, session, nextNordsternGame}) {
    })
  }*/
 
-  return (
-    <div
-      className={`gap-4 grid grid-cols-1 ${
-        nextNordsternGame && 'sm:grid-cols-2'
-      }`}
-    >
-      {nextNordsternGame && (
-        <div>
-          <div className="grid grid-cols-1 gap-4">
-            <GameWidget headline="Nächstes Spiel" game={nextNordsternGame} />
-          </div>
+    return (
+        <div
+            className={`gap-4 grid grid-cols-1 ${
+                nextNordsternGame && 'sm:grid-cols-2'
+            }`}
+        >
+            {nextNordsternGame && (
+                <div>
+                    <div className="grid grid-cols-1 gap-4">
+                        <GameWidget
+                            headline="Nächstes Spiel"
+                            game={nextNordsternGame}
+                        />
+                    </div>
+                </div>
+            )}
+            <div>
+                {/*<input type="file" onChange={readFile} />*/}
+                <TableWidget table={table} />
+            </div>
         </div>
-      )}
-      <div>
-         {/*<input type="file" onChange={readFile} />*/}
-        <TableWidget table={table} />
-      </div>
-    </div>
-  )
+    )
 }
