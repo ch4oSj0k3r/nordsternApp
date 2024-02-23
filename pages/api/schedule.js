@@ -28,17 +28,16 @@ export default async function handler(req, res) {
         for (let i = 0; i < schedule.length; i++) {
           const match = schedule[i]
 
-          const d = new Date(match[4])
-          const timestamp = d.getTime() + d.getTimezoneOffset() * 60 * 1000
-          const d2 = new Date(timestamp)
-          const date = d2.toISOString()
+          const dateSplit = match[4].split('.')
+          const d = new Date(`${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]} ${match[5]}`)
+          const date = d.toISOString()
 
           const matchday = await checkMatchday(match[0], currentSeasonId)
           const gamenumber = match[1]
           const homeId = await checkTeam(match[2], currentSeasonId)
           const awayId = await checkTeam(match[3], currentSeasonId)
-          const homePoints = match[5]
-          const awayPoints = match[6]
+          const homePoints = match[6]
+          const awayPoints = match[7]
 
           const game = await checkGame(
             matchday,
