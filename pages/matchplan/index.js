@@ -17,7 +17,7 @@ export async function getServerSideProps() {
         include: { games: { include: { homeTeam: true, awayTeam: true } } },
         where: { seasonId: currentSeasonId },
     })
-    const today = new Date()
+    const today = new Date().toISOString()
     const nextNordsternGame = await prisma.game.findFirst({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
