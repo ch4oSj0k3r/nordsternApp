@@ -21,7 +21,7 @@ export async function getServerSideProps(params) {
     })
     const table = getTable(games)
 
-    const today = new Date()
+    const today = new Date().toISOString()
     const nextNordsternGame = await prisma.game.findFirst({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
