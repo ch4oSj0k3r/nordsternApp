@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "@next-auth/prisma-adapter": "^1.0.5",
-        "@prisma/client": "^4.11.0",
+        "@prisma/client": "^5.10",
         "chart.js": "^3.7.1",
         "crypto-js": "^4.1.1",
         "ical-generator": "^3.6.1",
