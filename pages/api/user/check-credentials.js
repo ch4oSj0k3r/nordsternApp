@@ -8,16 +8,17 @@ export default async function handler(req, res) {
         case 'POST':
             try {
                 const user = await prisma.user.findUnique({
-                    where: { email: req.body.username },
+                    where: { username: req.body.username },
                     select: {
                         id: true,
                         name: true,
+                        username: true,
                         email: true,
                         image: true,
                         password: true,
                     },
                 })
-                if (user && user.password == hashPassword(req.body.password)) {
+                if (user && user.password === hashPassword(req.body.password)) {
                     delete user.password
                     res.json(user)
                 } else {
