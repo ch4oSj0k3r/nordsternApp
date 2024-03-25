@@ -77,7 +77,7 @@ export default function GameWidget({ headline, game, editable }) {
             <div className="flex items-center">
                 {headline && (
                     <div className="grow">
-                        <h2 className="card-title text-primary">{headline}</h2>
+                        <h2 className="card-title text-nsOrange">{headline}</h2>
                     </div>
                 )}
                 {editable && (
@@ -92,27 +92,27 @@ export default function GameWidget({ headline, game, editable }) {
             </div>
             <div
                 className={`${
-                    game.homeTeam.id === activeTeamId ? 'text-accent' : ''
+                    game.homeTeam.id === activeTeamId ? 'text-nsRed' : ''
                 }`}
             >
-                <GiHouse className="text-accent inline-block mr-2" />
+                <GiHouse className="text-nsRed inline-block mr-2" />
                 {game.homeTeam.name}
             </div>
             <div
                 className={`${
-                    game.awayTeam.id === activeTeamId ? 'text-accent' : ''
+                    game.awayTeam.id === activeTeamId ? 'text-nsRed' : ''
                 }`}
             >
-                <GiCityCar className="text-accent inline-block mr-2" />
+                <GiCityCar className="text-nsRed inline-block mr-2" />
                 {game.awayTeam.name}
             </div>
             <div>
-                <GiCalendar className="text-accent inline-block mr-2" />
+                <GiCalendar className="text-nsRed inline-block mr-2" />
                 {dateString}
             </div>
             {!editMode && (homePoints || awayPoints) && (
                 <div>
-                    <GiFinishLine className="text-accent inline-block mr-2" />
+                    <GiFinishLine className="text-nsRed inline-block mr-2" />
                     {`Ende ${homePoints} : ${awayPoints}`}
                 </div>
             )}
@@ -133,7 +133,7 @@ export default function GameWidget({ headline, game, editable }) {
                         onChange={(e) => setAwayPoints(e.target.value)}
                     />
                     <div className="text-right">
-                        <button className="btn text-secondary" onClick={save}>
+                        <button className="btn text-nsBrown" onClick={save}>
                             Speichern
                         </button>
                     </div>

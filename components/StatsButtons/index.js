@@ -19,28 +19,28 @@ function StatsButtons({ player, setPlayers }) {
     return (
         <div className="btn-group justify-self-center">
             <button
-                className="btn text-secondary"
+                className="btn text-nsBrown"
                 onClick={() => setStats('over100')}
                 disabled={loading}
             >
                 100+
             </button>
             <button
-                className="btn text-secondary"
+                className="btn text-nsBrown"
                 onClick={() => setStats('over140')}
                 disabled={loading}
             >
                 140+
             </button>
             <button
-                className="btn text-secondary"
+                className="btn text-nsBrown"
                 onClick={() => setStats('over180')}
                 disabled={loading}
             >
                 180
             </button>
             <button
-                className="btn text-secondary p-2 md:p-4"
+                className="btn text-nsBrown p-2 md:p-4"
                 onClick={() => setStats('highFinish')}
                 disabled={loading}
             >
