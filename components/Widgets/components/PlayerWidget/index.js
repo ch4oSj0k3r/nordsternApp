@@ -1,13 +1,28 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 import Widget from '../..'
 import RadarChart from '../../../RadarChart'
 import StatsButtons from '../../../StatsButtons'
+import BarChart from '../../../BarChart'
 
-const PlayerWidget = ({ player, setPlayers, showDiagram }) => {
+const PlayerWidget = ({ player, setPlayers, showDiagram, selectedGame }) => {
     const { data: session } = useSession()
     const [open, setOpen] = useState(true)
+
+    const stats = useMemo(() => {
+        if (selectedGame && player) {
+            console.log(
+                player.playerStats.filter(
+                    (stat) => stat.gameId === selectedGame
+                )
+            )
+            return player.playerStats.filter(
+                (stat) => stat.gameId === selectedGame
+            )
+        }
+        return player.playerStats || []
+    }, [player, selectedGame])
 
     if (!player) return
 
@@ -39,10 +54,7 @@ const PlayerWidget = ({ player, setPlayers, showDiagram }) => {
                         )}
                         {showDiagram && (
                             <div>
-                                <RadarChart
-                                    playerStats={player.playerStats}
-                                    minify
-                                />
+                                <BarChart playerStats={stats} minify />
                             </div>
                         )}
                     </div>
