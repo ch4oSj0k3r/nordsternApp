@@ -24,7 +24,7 @@ const PlayerWidget = ({ player, setPlayers }) => {
                     onClick={() => setOpen(!open)}
                 >
                     <div className="grow">
-                        <h2 className="card-title text-primary">{`${player.firstname} ${player.lastname} (${player.playernumber})`}</h2>
+                        <h2 className="card-title text-nsOrange">{`${player.firstname} ${player.lastname} (${player.playernumber})`}</h2>
                     </div>
                 </div>
                 <div className="collapse-content">

@@ -5,11 +5,17 @@ module.exports = {
     ],
     theme: {
         extend: {
-            borderColor: { DEFAULT: '#e36e00' }, // mytheme.primary
+            colors: {
+                nsOrange: '#e36e00',
+                nsBrown: '#912e00',
+                nsRed: '#a6302e',
+            },
+            borderColor: { DEFAULT: '#e36e00' },
         },
     },
     daisyui: {
-        themes: [
+        themes: ['light', 'dark'],
+        /*themes: [
             {
                 mytheme: {
                     ...require('daisyui/src/colors/themes')[
@@ -20,7 +26,7 @@ module.exports = {
                     accent: '#a6302e',
                 },
             },
-        ],
+        ],*/
     },
     plugins: [require('@tailwindcss/typography'), require('daisyui')],
 }

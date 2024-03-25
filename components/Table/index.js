@@ -36,7 +36,7 @@ export default function Table({ columns, data }) {
                                 {...row.getRowProps()}
                                 className={`${
                                     row.original.id === activeTeamId
-                                        ? 'text-accent font-bold'
+                                        ? 'text-nsRed font-bold'
                                         : ''
                                 }`}
                             >

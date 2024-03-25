@@ -73,18 +73,18 @@ export default function Matchplan({ matchplan, currentMatchday }) {
     return (
         <div className="grid grid-cols-1 gap-4">
             <div className="btn-group justify-self-center">
-                <button className="btn text-secondary" onClick={goPrevious}>
+                <button className="btn text-nsBrown" onClick={goPrevious}>
                     «
                 </button>
-                <button className="btn text-primary" onClick={goCurrent}>
+                <button className="btn text-nsOrange" onClick={goCurrent}>
                     Spieltag {matchday}
                 </button>
                 <Link href="/api/ical" passHref>
-                    <button className="btn text-primary">
+                    <button className="btn text-nsOrange">
                         <GiCalendar className="inline-block mr-2" /> Export
                     </button>
                 </Link>
-                <button className="btn text-secondary" onClick={goNext}>
+                <button className="btn text-nsBrown" onClick={goNext}>
                     »
                 </button>
             </div>
