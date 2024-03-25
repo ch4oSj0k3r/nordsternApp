@@ -1,25 +1,18 @@
 import React, { useMemo } from 'react'
 import {
     Chart as ChartJS,
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    Filler,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
     Tooltip,
     Legend,
 } from 'chart.js'
-import { Radar } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 
-ChartJS.register(
-    RadialLinearScale,
-    PointElement,
-    LineElement,
-    Filler,
-    Tooltip,
-    Legend
-)
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const RadarChart = ({ playerStats, minify = false }) => {
+const BarChart = ({ playerStats, minify = false }) => {
     const dataValues = useMemo(() => {
         const stats = [0, 0, 0, 0]
         for (const stat of playerStats) {
@@ -37,44 +30,43 @@ const RadarChart = ({ playerStats, minify = false }) => {
             {
                 label: '# Treffer',
                 data: dataValues,
-                backgroundColor: 'rgba(227, 110, 0, .2)',
-                borderColor: 'rgb(227, 110, 0)',
+                backgroundColor: '#e36e00',
+                borderColor: '#a6302e',
                 borderWidth: 1,
             },
         ],
     }
 
     const options = {
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            },
+        legend: {
+            fontColor: 'red',
         },
         scales: {
-            r: {
-                angleLines: {
-                    color: '#a6302e',
-                },
-                grid: {
-                    color: '#a6302e',
-                },
-                pointLabels: {
+            x: {
+                ticks: {
                     color: '#e36e00',
                 },
+                grid: {
+                    color: 'white',
+                },
+            },
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'white',
+                },
                 ticks: {
-                    display: !minify,
                     color: '#e36e00',
                     backdropColor: '#000000',
                     z: 100,
                     stepSize: 1,
                 },
-                min: 0,
+                max: 8,
             },
         },
     }
 
-    return <Radar options={options} data={data} />
+    return <Bar options={options} data={data} />
 }
 
-export default RadarChart
+export default BarChart

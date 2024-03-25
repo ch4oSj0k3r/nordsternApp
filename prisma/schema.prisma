@@ -47,6 +47,7 @@ model Game {
     matchday   Matchday @relation(fields: [matchdayId], references: [id])
     homeTeam   Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
     awayTeam   Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
+    playerStats  PlayerStats[]
 
     @@unique([matchdayId, gamenumber], name: "UniqueMatchdayGamenumber")
 }
@@ -60,7 +61,7 @@ model Player {
     team         Team         @relation(fields: [teamId], references: [id])
     active       Boolean      @default(true)
     memberships  Membership[]
-    playerStats  PlayerStats?
+    playerStats  PlayerStats[]
 }
 
 model PlayerStats {
@@ -69,8 +70,12 @@ model PlayerStats {
     over140    Int     @default(0)
     over180    Int     @default(0)
     highFinish Int     @default(0)
-    playerId   Int     @unique
+    playerId   Int
     player     Player? @relation(fields: [playerId], references: [id])
+    gameId     Int
+    game       Game?   @relation(fields: [gameId], references: [id])
+
+    @@unique([gameId, playerId], name: "UniqueGamePlayer")
 }
 
 model Membership {
