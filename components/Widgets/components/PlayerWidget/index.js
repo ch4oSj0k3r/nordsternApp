@@ -5,7 +5,7 @@ import Widget from '../..'
 import RadarChart from '../../../RadarChart'
 import StatsButtons from '../../../StatsButtons'
 
-const PlayerWidget = ({ player, setPlayers }) => {
+const PlayerWidget = ({ player, setPlayers, showDiagram }) => {
     const { data: session } = useSession()
     const [open, setOpen] = useState(true)
 
@@ -27,19 +27,26 @@ const PlayerWidget = ({ player, setPlayers }) => {
                         <h2 className="card-title text-nsOrange">{`${player.firstname} ${player.lastname} (${player.playernumber})`}</h2>
                     </div>
                 </div>
-                <div className="collapse-content">
-                    {session && session.user && (
-                        <div className="grid mb-4">
-                            <StatsButtons
-                                player={player}
-                                setPlayers={setPlayers}
-                            />
-                        </div>
-                    )}
-                    <div>
-                        <RadarChart playerStats={player.playerStats} minify />
+                {((session && session.user) || showDiagram) && (
+                    <div className="collapse-content">
+                        {session && session.user && (
+                            <div className="grid mb-4">
+                                <StatsButtons
+                                    player={player}
+                                    setPlayers={setPlayers}
+                                />
+                            </div>
+                        )}
+                        {showDiagram && (
+                            <div>
+                                <RadarChart
+                                    playerStats={player.playerStats}
+                                    minify
+                                />
+                            </div>
+                        )}
                     </div>
-                </div>
+                )}
             </div>
         </Widget>
     )
