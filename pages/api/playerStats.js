@@ -1,6 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import prisma from '../../prisma/prisma'
 
+const defaultVal = {
+    over100: 0,
+    over140: 0,
+    over180: 0,
+    highFinish: 0,
+}
+
 export default async function handler(req, res) {
     const { method } = req
     switch (method) {
@@ -17,34 +24,25 @@ export default async function handler(req, res) {
             break
         case 'POST':
             try {
-                const { player, type } = req.body
-                const defaultVal = {
-                    over100: 0,
-                    over140: 0,
-                    over180: 0,
-                    highFinish: 0,
-                }
+                const { player, type, gameId } = req.body
 
-                if (!player.playerStats) {
-                    await prisma.playerStats.create({
-                        data: {
-                            ...defaultVal,
-                            [type]: 1,
-                            player: {
-                                connect: {
-                                    id: player.id,
-                                },
-                            },
+                await prisma.playerStats.upsert({
+                    where: {
+                        UniqueGamePlayer: {
+                            playerId: player.id,
+                            gameId: gameId,
                         },
-                    })
-                } else {
-                    await prisma.playerStats.update({
-                        where: { playerId: player.id },
-                        data: {
-                            [type]: player.playerStats[type] + 1,
-                        },
-                    })
-                }
+                    },
+                    create: {
+                        ...defaultVal,
+                        [type]: 1,
+                        player: { connect: { id: player.id } },
+                        game: { connect: { id: gameId } },
+                    },
+                    update: {
+                        [type]: { increment: 1 },
+                    },
+                })
 
                 const players = await prisma.player.findMany({
                     where: { teamId: 6, active: true },

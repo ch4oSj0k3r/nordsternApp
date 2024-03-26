@@ -12,11 +12,6 @@ const PlayerWidget = ({ player, setPlayers, showDiagram, selectedGame }) => {
 
     const stats = useMemo(() => {
         if (selectedGame && player) {
-            console.log(
-                player.playerStats.filter(
-                    (stat) => stat.gameId === selectedGame
-                )
-            )
             return player.playerStats.filter(
                 (stat) => stat.gameId === selectedGame
             )
@@ -49,6 +44,7 @@ const PlayerWidget = ({ player, setPlayers, showDiagram, selectedGame }) => {
                                 <StatsButtons
                                     player={player}
                                     setPlayers={setPlayers}
+                                    selectedGame={selectedGame}
                                 />
                             </div>
                         )}
