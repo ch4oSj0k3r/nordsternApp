@@ -12,11 +12,15 @@ export async function getServerSideProps() {
         include: { playerStats: true },
     })
 
+    const seasons = await prisma.season.findMany()
+    const currentSeasonId = seasons[seasons.length - 1].id
+
     const nordsternGames = await prisma.game.findMany({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
+            AND: [{ matchday: { is: { seasonId: currentSeasonId } } }]
         },
-        include: { homeTeam: true, awayTeam: true },
+        include: { homeTeam: true, awayTeam: true, matchday: true },
     })
 
     return {
