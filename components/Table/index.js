@@ -45,7 +45,7 @@ export default function Table({ columns, data }) {
                                         <td
                                             key={i}
                                             {...cell.getCellProps()}
-                                            className="whitespace-normal"
+                                            className="max-w-24 lg:max-w-full overflow-x-auto"
                                         >
                                             {cell.render('Cell')}
                                         </td>

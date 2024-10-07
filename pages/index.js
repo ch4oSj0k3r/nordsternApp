@@ -58,7 +58,7 @@ export default function Dashboard({ table, session, nextNordsternGame }) {
     return (
         <div
             className={`gap-4 grid grid-cols-1 ${
-                nextNordsternGame && 'sm:grid-cols-2'
+                nextNordsternGame && 'lg:grid-cols-2'
             }`}
         >
             {nextNordsternGame && (
