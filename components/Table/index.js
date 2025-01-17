@@ -45,7 +45,7 @@ export default function Table({ columns, data }) {
                                         <td
                                             key={i}
                                             {...cell.getCellProps()}
-                                            className="max-w-24 lg:max-w-full overflow-x-auto"
+                                            className="max-w-20 lg:max-w-full px-1 md:px-4 overflow-x-auto"
                                         >
                                             {cell.render('Cell')}
                                         </td>

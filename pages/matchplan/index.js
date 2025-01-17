@@ -82,7 +82,7 @@ export default function Matchplan({ matchplan, currentMatchday }) {
                 >
                     Spieltag {matchday}
                 </button>
-                <Link href="/api/ical" passHref>
+                <Link href="/api/ical" passHref legacyBehavior>
                     <button className="btn text-nsOrange">
                         <GiCalendar className="h-5 w-5 inline-block mr-2" />
                         Export

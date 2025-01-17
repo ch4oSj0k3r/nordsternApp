@@ -83,7 +83,7 @@ export default function PlayerStatsDetail({ player }) {
     return (
         <div className="h-full">
             <div>
-                <Link href="/playerStats" passHref>
+                <Link href="/playerStats" passHref legacyBehavior>
                     <button className="btn btn-outline">Zurück</button>
                 </Link>
             </div>

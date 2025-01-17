@@ -54,17 +54,14 @@ const Menu = ({ className = '' }) => {
                             !item.disabled && item.pathname ? item.pathname : ''
                         }
                         passHref
+                        className={`${
+                            router.pathname === item.pathname
+                                ? 'text-nsOrange'
+                                : 'hover:text-nsOrange'
+                        }`}
+                        onClick={item.onClick}
                     >
-                        <a
-                            className={`${
-                                router.pathname === item.pathname
-                                    ? 'text-nsOrange'
-                                    : 'hover:text-nsOrange'
-                            }`}
-                            onClick={item.onClick}
-                        >
-                            {item.label}
-                        </a>
+                        {item.label}
                     </Link>
                 </li>
             ))}

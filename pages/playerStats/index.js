@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { PrismaClient } from '@prisma/client'
 
 import { activeTeamId } from '../../helpers'
@@ -53,10 +53,9 @@ export default function PlayerStats({
     const [showDiagram, setShowDiagram] = useState(true)
     const [selectedGame, setSelectedGame] = useState(null)
 
-    const visiblePlayers = useMemo(
-        () => players.filter((player) => !hiddenPlayers.includes(player.id)),
-        [hiddenPlayers, players]
-    )
+    const visiblePlayers = useMemo(() => {
+        return players.filter((player) => !hiddenPlayers.includes(player.id))
+    }, [hiddenPlayers, players])
 
     const playerOptions = useMemo(() => {
         return players.map((player) => (
