@@ -1,10 +1,22 @@
 import Navbar from '../Navbar'
 import Menu from '../Menu'
+import { usePathname } from 'next/navigation'
+import { createRef, useEffect } from 'react'
 
 const DrawerNavigation = ({ children }) => {
+    const pathname = usePathname()
+    const navigationToggler = createRef()
+
+    useEffect(() => {
+        if (navigationToggler.current.checked) {
+            navigationToggler.current.click()
+        }
+    }, [navigationToggler, pathname])
+
     return (
         <div className="drawer">
             <input
+                ref={navigationToggler}
                 id="drawer-navigation"
                 type="checkbox"
                 className="drawer-toggle"

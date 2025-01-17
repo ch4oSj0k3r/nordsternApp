@@ -29,13 +29,18 @@ export default async function handler(req, res) {
                         calendar.createEvent({
                             start: startTime,
                             end: endTime,
+                            timezone: 'Europe/Berlin',
                             summary: `${game.homeTeam.name} : ${game.awayTeam.name}`,
                         })
                     }
                 })
 
-                calendar.serve(res)
-                // res.status(200).json({})
+                res.writeHead(200, {
+                    'Content-Type': 'text/ calendar; charset=utf-8',
+                    'Content-Disposition':
+                        'attachment; filename="calendar.ics"',
+                })
+                res.end(calendar.toString())
             } catch (e) {
                 console.error('Request error', e)
                 res.status(500).json({ error: 'Error fetching ical' })
