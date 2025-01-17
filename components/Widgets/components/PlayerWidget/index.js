@@ -6,18 +6,28 @@ import RadarChart from '../../../RadarChart'
 import StatsButtons from '../../../StatsButtons'
 import BarChart from '../../../BarChart'
 
-const PlayerWidget = ({ player, setPlayers, showDiagram, selectedGame }) => {
+const PlayerWidget = ({
+    player,
+    setPlayers,
+    showDiagram,
+    selectedGame,
+    selectedSeason,
+}) => {
     const { data: session } = useSession()
     const [open, setOpen] = useState(true)
 
     const stats = useMemo(() => {
+        let stats =
+            player.playerStats.filter(
+                (stat) => stat.game?.matchday.seasonId === selectedSeason
+            ) || []
+
         if (selectedGame && player) {
-            return player.playerStats.filter(
-                (stat) => stat.gameId === selectedGame
-            )
+            return stats.filter((stat) => stat.gameId === selectedGame)
         }
-        return player.playerStats || []
-    }, [player, selectedGame])
+
+        return stats
+    }, [player, selectedGame, selectedSeason])
 
     if (!player) return
 

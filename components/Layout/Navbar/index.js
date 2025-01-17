@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { GiHamburgerMenu } from 'react-icons/gi'
 
 import Image from 'next/image'
 
@@ -61,19 +62,7 @@ export default function Navbar() {
                     aria-label="open sidebar"
                     className="btn btn-square btn-ghost"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block w-6 h-6 stroke-current"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                        ></path>
-                    </svg>
+                    <GiHamburgerMenu className="h-6 w-6" />
                 </label>
             </div>
         </div>

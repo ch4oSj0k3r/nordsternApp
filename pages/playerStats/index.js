@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { PrismaClient } from '@prisma/client'
 
 import { activeTeamId } from '../../helpers'
@@ -7,47 +7,51 @@ import PlayerWidget from '../../components/Widgets/components/PlayerWidget'
 export async function getServerSideProps() {
     const prisma = new PrismaClient()
 
-    const initPlayers = await prisma.player.findMany({
-        where: { teamId: activeTeamId, active: true },
-        include: { playerStats: true },
-    })
-
     const seasons = await prisma.season.findMany()
     const currentSeasonId = seasons[seasons.length - 1].id
+
+    const initPlayers = await prisma.player.findMany({
+        where: {
+            teamId: activeTeamId,
+            active: true,
+        },
+        include: {
+            playerStats: {
+                include: {
+                    game: {
+                        include: {
+                            matchday: true,
+                        },
+                    },
+                },
+            },
+        },
+    })
 
     const nordsternGames = await prisma.game.findMany({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
-            AND: [{ matchday: { is: { seasonId: currentSeasonId } } }]
+            AND: [{ matchday: { is: { seasonId: currentSeasonId } } }],
         },
         include: { homeTeam: true, awayTeam: true, matchday: true },
     })
 
     return {
-        props: { initPlayers, nordsternGames }, // will be passed to the page component as props
+        props: { currentSeasonId, seasons, initPlayers, nordsternGames }, // will be passed to the page component as props
     }
 }
 
-export default function PlayerStats({ initPlayers, nordsternGames }) {
+export default function PlayerStats({
+    currentSeasonId,
+    seasons,
+    initPlayers,
+    nordsternGames,
+}) {
     const [players, setPlayers] = useState(initPlayers)
+    const [selectedSeason, setSelectedSeason] = useState(currentSeasonId)
     const [hiddenPlayers, setHiddenPlayers] = useState([])
     const [showDiagram, setShowDiagram] = useState(true)
     const [selectedGame, setSelectedGame] = useState(null)
-
-    const togglePlayer = (id) => {
-        setHiddenPlayers((prevHiddenPlayers) => {
-            const hiddenIndex = prevHiddenPlayers.indexOf(id)
-            let newHiddenPlayers
-            if (hiddenIndex > -1) {
-                newHiddenPlayers = prevHiddenPlayers.filter(
-                    (playerId) => playerId !== id
-                )
-            } else {
-                newHiddenPlayers = [...prevHiddenPlayers, id]
-            }
-            return newHiddenPlayers
-        })
-    }
 
     const visiblePlayers = useMemo(
         () => players.filter((player) => !hiddenPlayers.includes(player.id)),
@@ -90,17 +94,49 @@ export default function PlayerStats({ initPlayers, nordsternGames }) {
         })
     }, [nordsternGames])
 
+    const togglePlayer = (id) => {
+        setHiddenPlayers((prevHiddenPlayers) => {
+            const hiddenIndex = prevHiddenPlayers.indexOf(id)
+            let newHiddenPlayers
+            if (hiddenIndex > -1) {
+                newHiddenPlayers = prevHiddenPlayers.filter(
+                    (playerId) => playerId !== id
+                )
+            } else {
+                newHiddenPlayers = [...prevHiddenPlayers, id]
+            }
+            return newHiddenPlayers
+        })
+    }
+
     return (
         <div className="grid gap-4">
             <div className="grid grid-cols-2">
-                <select
-                    className="select select-bordered border-nsOrange w-full max-w-xs"
-                    value={selectedGame}
-                    onChange={(e) => setSelectedGame(parseInt(e.target.value))}
-                >
-                    <option value={null}>Gesamt</option>
-                    {gameOptions}
-                </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                    <select
+                        className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
+                        value={selectedSeason}
+                        onChange={(e) =>
+                            setSelectedSeason(parseInt(e.target.value))
+                        }
+                    >
+                        {seasons.map((season) => (
+                            <option key={season.id} value={season.id}>
+                                {season.name}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
+                        value={selectedGame}
+                        onChange={(e) =>
+                            setSelectedGame(parseInt(e.target.value))
+                        }
+                    >
+                        <option value={null}>Gesamt</option>
+                        {gameOptions}
+                    </select>
+                </div>
                 <div className="dropdown dropdown-end justify-self-end">
                     <div
                         tabIndex={0}
@@ -139,6 +175,7 @@ export default function PlayerStats({ initPlayers, nordsternGames }) {
                         <PlayerWidget
                             key={player.id}
                             player={player}
+                            selectedSeason={selectedSeason}
                             setPlayers={setPlayers}
                             showDiagram={showDiagram}
                             selectedGame={selectedGame}
