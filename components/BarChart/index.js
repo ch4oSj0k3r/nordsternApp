@@ -61,7 +61,7 @@ const BarChart = ({ playerStats, minify = false }) => {
                     z: 100,
                     stepSize: 1,
                 },
-                max: 8,
+                max: Math.max(...dataValues) + 5,
             },
         },
     }

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { PrismaClient } from '@prisma/client'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { GiCalendar } from 'react-icons/gi'
+import { GiCalendar, GiNextButton, GiPreviousButton } from 'react-icons/gi'
 
 import GameWidget from '../../components/Widgets/components/GameWidget'
 import { activeTeamId } from '../../helpers'
@@ -72,20 +72,24 @@ export default function Matchplan({ matchplan, currentMatchday }) {
 
     return (
         <div className="grid grid-cols-1 gap-4">
-            <div className="btn-group justify-self-center">
+            <div className="flex justify-self-center">
                 <button className="btn text-nsBrown" onClick={goPrevious}>
-                    «
+                    <GiPreviousButton className="h-5 w-5" />
                 </button>
-                <button className="btn text-nsOrange" onClick={goCurrent}>
+                <button
+                    className="btn text-nsOrange min-w-28"
+                    onClick={goCurrent}
+                >
                     Spieltag {matchday}
                 </button>
                 <Link href="/api/ical" passHref>
                     <button className="btn text-nsOrange">
-                        <GiCalendar className="inline-block mr-2" /> Export
+                        <GiCalendar className="h-5 w-5 inline-block mr-2" />
+                        Export
                     </button>
                 </Link>
                 <button className="btn text-nsBrown" onClick={goNext}>
-                    »
+                    <GiNextButton className="h-5 w-5" />
                 </button>
             </div>
             {games.map((game) => (

@@ -46,7 +46,17 @@ export default async function handler(req, res) {
 
                 const players = await prisma.player.findMany({
                     where: { teamId: 6, active: true },
-                    include: { playerStats: true },
+                    include: {
+                        playerStats: {
+                            include: {
+                                game: {
+                                    include: {
+                                        matchday: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
                 })
 
                 res.status(200).json(players)

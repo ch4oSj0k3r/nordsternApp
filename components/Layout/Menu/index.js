@@ -33,7 +33,7 @@ const Menu = ({ className = '' }) => {
 
     if (session && session.user) {
         navItems.push({
-            label: `Hallo ${session.user.name} - Logout`,
+            label: `Logout`,
             icon: <AiOutlineLogout className="text-4xl" />,
             onClick: () => signOut(),
         })

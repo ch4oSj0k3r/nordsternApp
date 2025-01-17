@@ -120,16 +120,16 @@ export default function GameWidget({ headline, game, editable }) {
                 <div className="grid grid-cols-1 gap-1">
                     <input
                         value={homePoints}
-                        type="text"
+                        type="number"
                         placeholder="Heim"
-                        className="input input-bordered max-w-xs"
+                        className="input input-bordered max-w-xs focus:outline-none"
                         onChange={(e) => setHomePoints(e.target.value)}
                     />
                     <input
                         value={awayPoints}
-                        type="text"
+                        type="number"
                         placeholder="Auswärts"
-                        className="input input-bordered max-w-xs"
+                        className="input input-bordered max-w-xs focus:outline-none"
                         onChange={(e) => setAwayPoints(e.target.value)}
                     />
                     <div className="text-right">
