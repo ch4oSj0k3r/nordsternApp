@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import React, { useMemo, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-import Widget from '../..'
-import RadarChart from '../../../RadarChart'
-import StatsButtons from '../../../StatsButtons'
-import BarChart from '../../../BarChart'
+import Widget from '../..';
+import RadarChart from '../../../RadarChart';
+import StatsButtons from '../../../StatsButtons';
+import BarChart from '../../../BarChart';
 
 const PlayerWidget = ({
     player,
@@ -13,23 +13,23 @@ const PlayerWidget = ({
     selectedGame,
     selectedSeason,
 }) => {
-    const { data: session } = useSession()
-    const [open, setOpen] = useState(true)
+    const { data: session } = useSession();
+    const [open, setOpen] = useState(true);
 
     const stats = useMemo(() => {
         let stats =
             player.playerStats.filter(
                 (stat) => stat.game?.matchday.seasonId === selectedSeason
-            ) || []
+            ) || [];
 
         if (selectedGame && player) {
-            return stats.filter((stat) => stat.gameId === selectedGame)
+            return stats.filter((stat) => stat.gameId === selectedGame);
         }
 
-        return stats
-    }, [player, selectedGame, selectedSeason])
+        return stats;
+    }, [player, selectedGame, selectedSeason]);
 
-    if (!player) return
+    if (!player) return;
 
     return (
         <Widget>
@@ -67,7 +67,7 @@ const PlayerWidget = ({
                 )}
             </div>
         </Widget>
-    )
-}
+    );
+};
 
-export default PlayerWidget
+export default PlayerWidget;
