@@ -31,6 +31,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over100')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 100+
             </button>
             <button
@@ -38,6 +41,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over140')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 140+
             </button>
             <button
@@ -45,6 +51,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over180')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 180
             </button>
             <button
@@ -52,6 +61,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('highFinish')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 High-Finish
             </button>
         </div>
