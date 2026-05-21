@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 
 import Widget from '../..';
-import RadarChart from '../../../RadarChart';
 import StatsButtons from '../../../StatsButtons';
-import BarChart from '../../../BarChart';
+
+const BarChart = dynamic(() => import('../../../BarChart'), { ssr: false });
+const RadarChart = dynamic(() => import('../../../RadarChart'), { ssr: false });
 
 const PlayerWidget = ({
     player,

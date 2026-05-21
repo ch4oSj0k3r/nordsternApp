@@ -9,8 +9,12 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
         async (type) => {
             setLoading(true);
             await addStats({ player, type, gameId: selectedGame }).then(
-                (res) => {
-                    setPlayers(res);
+                (updatedPlayer) => {
+                    setPlayers((prev) =>
+                        prev.map((p) =>
+                            p.id === updatedPlayer.id ? updatedPlayer : p
+                        )
+                    );
                     setLoading(false);
                 }
             );
@@ -27,6 +31,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over100')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 100+
             </button>
             <button
@@ -34,6 +41,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over140')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 140+
             </button>
             <button
@@ -41,6 +51,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('over180')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 180
             </button>
             <button
@@ -48,6 +61,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 onClick={() => setStats('highFinish')}
                 disabled={disabled}
             >
+                {loading && (
+                    <span className="loading loading-spinner loading-xs" />
+                )}
                 High-Finish
             </button>
         </div>

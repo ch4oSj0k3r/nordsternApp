@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../prisma/prisma';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { GiCalendar, GiNextButton, GiPreviousButton } from 'react-icons/gi';
@@ -9,8 +9,6 @@ import GameWidget from '../../components/Widgets/components/GameWidget';
 import { activeTeamId } from '../../helpers';
 
 export async function getServerSideProps() {
-    const prisma = new PrismaClient();
-
     const seasons = await prisma.season.findMany();
     const currentSeasonId = seasons[seasons.length - 1].id;
     const matchplan = await prisma.matchday.findMany({
