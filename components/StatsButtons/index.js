@@ -9,8 +9,12 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
         async (type) => {
             setLoading(true);
             await addStats({ player, type, gameId: selectedGame }).then(
-                (res) => {
-                    setPlayers(res);
+                (updatedPlayer) => {
+                    setPlayers((prev) =>
+                        prev.map((p) =>
+                            p.id === updatedPlayer.id ? updatedPlayer : p
+                        )
+                    );
                     setLoading(false);
                 }
             );
