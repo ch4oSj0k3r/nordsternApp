@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../prisma/prisma';
 
 import { activeTeamId } from '../../helpers';
 import PlayerWidget from '../../components/Widgets/components/PlayerWidget';
 
 export async function getServerSideProps() {
-    const prisma = new PrismaClient();
-
     const seasons = await prisma.season.findMany();
     const currentSeasonId = seasons[seasons.length - 1].id;
 
