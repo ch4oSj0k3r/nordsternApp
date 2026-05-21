@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import Widget from '../..'
-import Table from '../../../Table'
+import Widget from '../..';
+import Table from '../../../Table';
 
 export default function TableWidget({ table }) {
     const columns = React.useMemo(
@@ -53,12 +53,12 @@ export default function TableWidget({ table }) {
             },
         ],
         []
-    )
+    );
 
     return (
         <Widget>
             <h2 className="card-title text-nsOrange">Tabelle</h2>
             <Table columns={columns} data={table} />
         </Widget>
-    )
+    );
 }

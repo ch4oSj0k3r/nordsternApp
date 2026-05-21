@@ -1,5 +1,5 @@
-import React from 'react'
-import { PrismaClient } from '@prisma/client'
+import React from 'react';
+import { PrismaClient } from '@prisma/client';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -8,9 +8,9 @@ import {
     Filler,
     Tooltip,
     Legend,
-} from 'chart.js'
-import { Radar } from 'react-chartjs-2'
-import Link from 'next/link'
+} from 'chart.js';
+import { Radar } from 'react-chartjs-2';
+import Link from 'next/link';
 
 ChartJS.register(
     RadialLinearScale,
@@ -19,30 +19,30 @@ ChartJS.register(
     Filler,
     Tooltip,
     Legend
-)
+);
 
 export async function getServerSideProps({ params }) {
-    const prisma = new PrismaClient()
-    const { playerId } = params
+    const prisma = new PrismaClient();
+    const { playerId } = params;
 
     const player = await prisma.player.findFirst({
         where: { id: parseInt(playerId) },
         include: { playerStats: true },
-    })
+    });
 
     return {
         props: { player }, // will be passed to the page component as props
-    }
+    };
 }
 
 export default function PlayerStatsDetail({ player }) {
-    const dataValues = []
-    const stats = player?.playerStats || {}
+    const dataValues = [];
+    const stats = player?.playerStats || {};
     Object.entries(stats).forEach(([key, entry]) => {
         if (key !== 'id' && key !== 'playerId') {
-            dataValues.push(entry)
+            dataValues.push(entry);
         }
-    })
+    });
     const data = {
         labels: ['100+', '140+', '180', 'High-Finish'],
         datasets: [
@@ -54,7 +54,7 @@ export default function PlayerStatsDetail({ player }) {
                 borderWidth: 1,
             },
         ],
-    }
+    };
 
     const options = {
         maintainAspectRatio: false,
@@ -78,7 +78,7 @@ export default function PlayerStatsDetail({ player }) {
                 },
             },
         },
-    }
+    };
 
     return (
         <div className="h-full">
@@ -91,5 +91,5 @@ export default function PlayerStatsDetail({ player }) {
                 <Radar options={options} data={data} />
             </div>
         </div>
-    )
+    );
 }

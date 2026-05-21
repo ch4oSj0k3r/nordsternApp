@@ -1,14 +1,14 @@
-import React from 'react'
-import { useTable } from 'react-table'
+import React from 'react';
+import { useTable } from 'react-table';
 
-import { activeTeamId } from '../../helpers'
+import { activeTeamId } from '../../helpers';
 
 export default function Table({ columns, data }) {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({
             columns,
             data,
-        })
+        });
 
     return (
         <div>
@@ -29,7 +29,7 @@ export default function Table({ columns, data }) {
                 </thead>
                 <tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
-                        prepareRow(row)
+                        prepareRow(row);
                         return (
                             <tr
                                 key={i}
@@ -49,13 +49,13 @@ export default function Table({ columns, data }) {
                                         >
                                             {cell.render('Cell')}
                                         </td>
-                                    )
+                                    );
                                 })}
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
