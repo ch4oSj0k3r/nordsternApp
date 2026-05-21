@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo } from 'react';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -7,8 +7,8 @@ import {
     Filler,
     Tooltip,
     Legend,
-} from 'chart.js'
-import { Radar } from 'react-chartjs-2'
+} from 'chart.js';
+import { Radar } from 'react-chartjs-2';
 
 ChartJS.register(
     RadialLinearScale,
@@ -17,19 +17,19 @@ ChartJS.register(
     Filler,
     Tooltip,
     Legend
-)
+);
 
 const RadarChart = ({ playerStats, minify = false }) => {
     const dataValues = useMemo(() => {
-        const stats = [0, 0, 0, 0]
+        const stats = [0, 0, 0, 0];
         for (const stat of playerStats) {
-            stats[0] += stat.over100 || 0
-            stats[1] += stat.over140 || 0
-            stats[2] += stat.over180 || 0
-            stats[3] += stat.highFinish || 0
+            stats[0] += stat.over100 || 0;
+            stats[1] += stat.over140 || 0;
+            stats[2] += stat.over180 || 0;
+            stats[3] += stat.highFinish || 0;
         }
-        return stats
-    }, [playerStats])
+        return stats;
+    }, [playerStats]);
 
     const data = {
         labels: ['100+', '140+', '180', 'High-Finish'],
@@ -42,7 +42,7 @@ const RadarChart = ({ playerStats, minify = false }) => {
                 borderWidth: 1,
             },
         ],
-    }
+    };
 
     const options = {
         maintainAspectRatio: false,
@@ -72,9 +72,9 @@ const RadarChart = ({ playerStats, minify = false }) => {
                 min: 0,
             },
         },
-    }
+    };
 
-    return <Radar options={options} data={data} />
-}
+    return <Radar options={options} data={data} />;
+};
 
-export default RadarChart
+export default RadarChart;

@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-import { PrismaClient } from '@prisma/client'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
-import { GiCalendar, GiNextButton, GiPreviousButton } from 'react-icons/gi'
+import { PrismaClient } from '@prisma/client';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { GiCalendar, GiNextButton, GiPreviousButton } from 'react-icons/gi';
 
-import GameWidget from '../../components/Widgets/components/GameWidget'
-import { activeTeamId } from '../../helpers'
+import GameWidget from '../../components/Widgets/components/GameWidget';
+import { activeTeamId } from '../../helpers';
 
 export async function getServerSideProps() {
-    const prisma = new PrismaClient()
+    const prisma = new PrismaClient();
 
-    const seasons = await prisma.season.findMany()
-    const currentSeasonId = seasons[seasons.length - 1].id
+    const seasons = await prisma.season.findMany();
+    const currentSeasonId = seasons[seasons.length - 1].id;
     const matchplan = await prisma.matchday.findMany({
         include: { games: { include: { homeTeam: true, awayTeam: true } } },
         where: { seasonId: currentSeasonId },
-    })
-    const today = new Date().toISOString()
+    });
+    const today = new Date().toISOString();
     const nextNordsternGame = await prisma.game.findFirst({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
@@ -25,50 +25,50 @@ export async function getServerSideProps() {
         },
         include: { matchday: true },
         orderBy: { date: 'asc' },
-    })
+    });
 
     return {
         props: {
             matchplan,
             currentMatchday: nextNordsternGame?.matchday?.matchday || 1,
         }, // will be passed to the page component as props
-    }
+    };
 }
 
 export default function Matchplan({ matchplan, currentMatchday }) {
-    const { data: session } = useSession()
-    const [matchday, setMatchday] = useState(currentMatchday)
-    const [games, setGames] = useState([])
+    const { data: session } = useSession();
+    const [matchday, setMatchday] = useState(currentMatchday);
+    const [games, setGames] = useState([]);
 
     useEffect(() => {
-        const games = matchplan.find((md) => md.matchday === matchday).games
-        setGames(games)
-    }, [matchplan, matchday])
+        const games = matchplan.find((md) => md.matchday === matchday).games;
+        setGames(games);
+    }, [matchplan, matchday]);
 
     const goCurrent = () => {
-        setMatchday(currentMatchday)
-    }
+        setMatchday(currentMatchday);
+    };
 
     const goPrevious = () => {
-        let newMatchday = matchday
+        let newMatchday = matchday;
         if (matchday === 1) {
-            newMatchday = matchplan.length
+            newMatchday = matchplan.length;
         } else {
-            newMatchday--
+            newMatchday--;
         }
 
-        setMatchday(newMatchday)
-    }
+        setMatchday(newMatchday);
+    };
     const goNext = () => {
-        let newMatchday = matchday
+        let newMatchday = matchday;
         if (matchday === matchplan.length) {
-            newMatchday = 1
+            newMatchday = 1;
         } else {
-            newMatchday++
+            newMatchday++;
         }
 
-        setMatchday(newMatchday)
-    }
+        setMatchday(newMatchday);
+    };
 
     return (
         <div className="grid grid-cols-1 gap-4">
@@ -101,5 +101,5 @@ export default function Matchplan({ matchplan, currentMatchday }) {
                 />
             ))}
         </div>
-    )
+    );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import Router from 'next/router'
+import Router from 'next/router';
 
 import {
     GiHouse,
@@ -8,22 +8,22 @@ import {
     GiPencil,
     GiCalendar,
     GiFinishLine,
-} from 'react-icons/gi'
+} from 'react-icons/gi';
 
-import Widget from '../..'
-import { activeTeamId, updateGame } from '../../../../helpers'
+import Widget from '../..';
+import { activeTeamId, updateGame } from '../../../../helpers';
 
 export default function GameWidget({ headline, game, editable }) {
-    const [editMode, setEditMode] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [homePoints, setHomePoints] = useState(game?.homePoints)
-    const [awayPoints, setAwayPoints] = useState(game?.awayPoints)
+    const [editMode, setEditMode] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [homePoints, setHomePoints] = useState(game?.homePoints);
+    const [awayPoints, setAwayPoints] = useState(game?.awayPoints);
 
     if (!game) {
-        return ''
+        return '';
     }
 
-    const date = new Date(game.date)
+    const date = new Date(game.date);
     const dateString = date.toLocaleDateString(undefined, {
         weekday: 'short',
         day: '2-digit',
@@ -31,20 +31,20 @@ export default function GameWidget({ headline, game, editable }) {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-    })
+    });
 
     const save = () => {
-        setLoading(true)
+        setLoading(true);
         updateGame(game.id, { homePoints, awayPoints })
             .then(() => {
-                setLoading(false)
-                setEditMode(false)
+                setLoading(false);
+                setEditMode(false);
                 // Router.reload(window.location.pathname)
             })
             .catch(() => {
-                setLoading(false)
-            })
-    }
+                setLoading(false);
+            });
+    };
 
     if (loading) {
         return (
@@ -69,7 +69,7 @@ export default function GameWidget({ headline, game, editable }) {
                     <span className="sr-only">Loading...</span>
                 </div>
             </Widget>
-        )
+        );
     }
 
     return (
@@ -140,5 +140,5 @@ export default function GameWidget({ headline, game, editable }) {
                 </div>
             )}
         </Widget>
-    )
+    );
 }

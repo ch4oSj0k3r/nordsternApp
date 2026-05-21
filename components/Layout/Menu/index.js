@@ -1,17 +1,17 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import {
     AiFillTrophy,
     AiOutlineHome,
     AiOutlineLogin,
     AiOutlineLogout,
     AiTwotoneCalendar,
-} from 'react-icons/ai'
-import { useRouter } from 'next/router'
-import { signIn, signOut, useSession } from 'next-auth/react'
+} from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Menu = ({ className = '' }) => {
-    const router = useRouter()
-    const { data: session } = useSession()
+    const router = useRouter();
+    const { data: session } = useSession();
 
     const navItems = [
         {
@@ -29,20 +29,20 @@ const Menu = ({ className = '' }) => {
             icon: <AiFillTrophy className="text-4xl" />,
             pathname: '/playerStats',
         },
-    ]
+    ];
 
     if (session && session.user) {
         navItems.push({
             label: `Logout`,
             icon: <AiOutlineLogout className="text-4xl" />,
             onClick: () => signOut(),
-        })
+        });
     } else {
         navItems.push({
             label: 'Login',
             icon: <AiOutlineLogin className="text-4xl" />,
             onClick: () => signIn(),
-        })
+        });
     }
 
     return (
@@ -66,7 +66,7 @@ const Menu = ({ className = '' }) => {
                 </li>
             ))}
         </ul>
-    )
-}
+    );
+};
 
-export default Menu
+export default Menu;

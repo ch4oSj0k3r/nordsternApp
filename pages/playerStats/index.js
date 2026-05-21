@@ -1,14 +1,14 @@
-import React, { useMemo, useState } from 'react'
-import { PrismaClient } from '@prisma/client'
+import React, { useMemo, useState } from 'react';
+import { PrismaClient } from '@prisma/client';
 
-import { activeTeamId } from '../../helpers'
-import PlayerWidget from '../../components/Widgets/components/PlayerWidget'
+import { activeTeamId } from '../../helpers';
+import PlayerWidget from '../../components/Widgets/components/PlayerWidget';
 
 export async function getServerSideProps() {
-    const prisma = new PrismaClient()
+    const prisma = new PrismaClient();
 
-    const seasons = await prisma.season.findMany()
-    const currentSeasonId = seasons[seasons.length - 1].id
+    const seasons = await prisma.season.findMany();
+    const currentSeasonId = seasons[seasons.length - 1].id;
 
     const initPlayers = await prisma.player.findMany({
         where: {
@@ -26,7 +26,7 @@ export async function getServerSideProps() {
                 },
             },
         },
-    })
+    });
 
     const nordsternGames = await prisma.game.findMany({
         where: {
@@ -34,11 +34,11 @@ export async function getServerSideProps() {
             AND: [{ matchday: { is: { seasonId: currentSeasonId } } }],
         },
         include: { homeTeam: true, awayTeam: true, matchday: true },
-    })
+    });
 
     return {
         props: { currentSeasonId, seasons, initPlayers, nordsternGames }, // will be passed to the page component as props
-    }
+    };
 }
 
 export default function PlayerStats({
@@ -47,15 +47,15 @@ export default function PlayerStats({
     initPlayers,
     nordsternGames,
 }) {
-    const [players, setPlayers] = useState(initPlayers)
-    const [selectedSeason, setSelectedSeason] = useState(currentSeasonId)
-    const [hiddenPlayers, setHiddenPlayers] = useState([])
-    const [showDiagram, setShowDiagram] = useState(true)
-    const [selectedGame, setSelectedGame] = useState(null)
+    const [players, setPlayers] = useState(initPlayers);
+    const [selectedSeason, setSelectedSeason] = useState(currentSeasonId);
+    const [hiddenPlayers, setHiddenPlayers] = useState([]);
+    const [showDiagram, setShowDiagram] = useState(true);
+    const [selectedGame, setSelectedGame] = useState(null);
 
     const visiblePlayers = useMemo(() => {
-        return players.filter((player) => !hiddenPlayers.includes(player.id))
-    }, [hiddenPlayers, players])
+        return players.filter((player) => !hiddenPlayers.includes(player.id));
+    }, [hiddenPlayers, players]);
 
     const playerOptions = useMemo(() => {
         return players.map((player) => (
@@ -74,8 +74,8 @@ export default function PlayerStats({
                     </div>
                 </a>
             </li>
-        ))
-    }, [hiddenPlayers, players])
+        ));
+    }, [hiddenPlayers, players]);
 
     const gameOptions = useMemo(() => {
         return nordsternGames.map((game) => {
@@ -83,30 +83,30 @@ export default function PlayerStats({
             const opponentName =
                 game.homeTeam.id !== activeTeamId
                     ? game.homeTeam.name
-                    : game.awayTeam.name
+                    : game.awayTeam.name;
             // Return the <option> element for each game
             return (
                 <option key={game.id} value={game.id}>
                     {opponentName}
                 </option>
-            )
-        })
-    }, [nordsternGames])
+            );
+        });
+    }, [nordsternGames]);
 
     const togglePlayer = (id) => {
         setHiddenPlayers((prevHiddenPlayers) => {
-            const hiddenIndex = prevHiddenPlayers.indexOf(id)
-            let newHiddenPlayers
+            const hiddenIndex = prevHiddenPlayers.indexOf(id);
+            let newHiddenPlayers;
             if (hiddenIndex > -1) {
                 newHiddenPlayers = prevHiddenPlayers.filter(
                     (playerId) => playerId !== id
-                )
+                );
             } else {
-                newHiddenPlayers = [...prevHiddenPlayers, id]
+                newHiddenPlayers = [...prevHiddenPlayers, id];
             }
-            return newHiddenPlayers
-        })
-    }
+            return newHiddenPlayers;
+        });
+    };
 
     return (
         <div className="grid gap-4">
@@ -179,9 +179,9 @@ export default function PlayerStats({
                             showDiagram={showDiagram}
                             selectedGame={selectedGame}
                         />
-                    )
+                    );
                 })}
             </div>
         </div>
-    )
+    );
 }
