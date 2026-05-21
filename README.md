@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# nordsternApp
 
-## Getting Started
+Vereins-App für eine Dart-Mannschaft. Verwaltung von Saisons, Spielen und Tabellen sowie detaillierte Wurfstatistiken für jeden Spieler. Deployed auf Netlify.
 
-First, run the development server:
+## Stack
+
+| Bereich    | Technologie               |
+| ---------- | ------------------------- |
+| Framework  | Next.js 15 (Pages Router) |
+| Sprache    | JavaScript                |
+| UI         | React 18                  |
+| Styling    | Tailwind CSS v3, DaisyUI  |
+| Auth       | NextAuth.js               |
+| Datenbank  | MySQL, Prisma ORM         |
+| Deployment | Netlify                   |
+
+## Lokale Entwicklung
+
+### Voraussetzungen
+
+-   Node.js 20+
+-   pnpm
+-   MySQL-Datenbank (lokal oder remote)
+
+### Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
+pnpm install
+cp .env .env.local  # Umgebungsvariablen anpassen
+pnpm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| Script              | Beschreibung                      |
+| ------------------- | --------------------------------- |
+| `pnpm run dev`      | Entwicklungsserver mit Hot Reload |
+| `pnpm run build`    | Produktions-Build                 |
+| `pnpm run start`    | Produktionsserver starten         |
+| `pnpm run lint`     | ESLint ausführen                  |
+| `pnpm run prettier` | Prettier-Check                    |
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Branching-Strategie
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+| Branch      | Zweck                                              |
+| ----------- | -------------------------------------------------- |
+| `main`      | Protected — Netlify deployed automatisch bei Merge |
+| `feature/*` | Feature-Branches, Basis: `main`, via PR in `main`  |
 
-## Learn More
+```bash
+git checkout -b feature/name
+git commit -m "feat: ..."
+git push -u origin feature/name
+# → Pull Request auf GitHub: feature/* → main
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Netlify deployed automatisch bei jedem Merge auf `main`. Deploy Previews werden für jeden PR erstellt.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Umgebungsvariablen werden in Netlify unter **Site settings → Environment variables** gesetzt.

@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react';
 
-import { addStats } from '../../helpers'
+import { addStats } from '../../helpers';
 
 function StatsButtons({ player, selectedGame, setPlayers }) {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const setStats = useCallback(
         async (type) => {
-            setLoading(true)
+            setLoading(true);
             await addStats({ player, type, gameId: selectedGame }).then(
                 (res) => {
-                    setPlayers(res)
-                    setLoading(false)
+                    setPlayers(res);
+                    setLoading(false);
                 }
-            )
+            );
         },
         [player, selectedGame, setPlayers]
-    )
+    );
 
-    const disabled = loading || !selectedGame
+    const disabled = loading || !selectedGame;
 
     return (
         <div className="btn-group justify-self-center">
@@ -51,7 +51,7 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 High-Finish
             </button>
         </div>
-    )
+    );
 }
 
-export default StatsButtons
+export default StatsButtons;

@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import { Toaster } from 'react-hot-toast'
-import { SessionProvider } from 'next-auth/react'
+import Head from 'next/head';
+import { Toaster } from 'react-hot-toast';
+import { SessionProvider } from 'next-auth/react';
 
-import '../styles/globals.css'
-import DrawerNavigation from '../components/Layout/DrawerNavigation'
+import '../styles/globals.css';
+import DrawerNavigation from '../components/Layout/DrawerNavigation';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     return (
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 </DrawerNavigation>
             </div>
         </SessionProvider>
-    )
+    );
 }
 
-export default MyApp
+export default MyApp;

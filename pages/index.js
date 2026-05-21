@@ -1,27 +1,27 @@
-import { getSession } from 'next-auth/react'
-import { PrismaClient } from '@prisma/client'
+import { getSession } from 'next-auth/react';
+import { PrismaClient } from '@prisma/client';
 
 /*import readXlsxFile from 'read-excel-file'*/
 
-import { activeTeamId, getTable } from '../helpers'
+import { activeTeamId, getTable } from '../helpers';
 
-import TableWidget from '../components/Widgets/components/TableWidget'
-import GameWidget from '../components/Widgets/components/GameWidget'
+import TableWidget from '../components/Widgets/components/TableWidget';
+import GameWidget from '../components/Widgets/components/GameWidget';
 
 export async function getServerSideProps(params) {
-    const prisma = new PrismaClient()
+    const prisma = new PrismaClient();
 
-    const session = await getSession(params)
+    const session = await getSession(params);
 
-    const seasons = await prisma.season.findMany()
-    const currentSeasonId = seasons[seasons.length - 1].id
+    const seasons = await prisma.season.findMany();
+    const currentSeasonId = seasons[seasons.length - 1].id;
     const games = await prisma.game.findMany({
         include: { homeTeam: true, awayTeam: true, matchday: true },
         where: { matchday: { is: { seasonId: currentSeasonId } } },
-    })
-    const table = getTable(games)
+    });
+    const table = getTable(games);
 
-    const today = new Date().toISOString()
+    const today = new Date().toISOString();
     const nextNordsternGame = await prisma.game.findFirst({
         where: {
             OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
@@ -29,11 +29,11 @@ export async function getServerSideProps(params) {
         },
         include: { homeTeam: true, awayTeam: true },
         orderBy: { date: 'asc' },
-    })
+    });
 
     return {
         props: { session, table, nextNordsternGame }, // will be passed to the page component as props
-    }
+    };
 }
 
 export default function Dashboard({ table, session, nextNordsternGame }) {
@@ -76,5 +76,5 @@ export default function Dashboard({ table, session, nextNordsternGame }) {
                 <TableWidget table={table} />
             </div>
         </div>
-    )
+    );
 }

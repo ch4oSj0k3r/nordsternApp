@@ -1,8 +1,8 @@
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
-import prisma from '../../../prisma/prisma'
+import prisma from '../../../prisma/prisma';
 
 export default NextAuth({
     //   adapter: PrismaAdapter(prisma),
@@ -33,15 +33,15 @@ export default NextAuth({
                         body: JSON.stringify(credentials),
                         headers: { 'Content-Type': 'application/json' },
                     }
-                )
-                const user = await res.json()
+                );
+                const user = await res.json();
 
                 // If no error and we have user data, return it
                 if (res.ok && user) {
-                    return user
+                    return user;
                 }
                 // Return null if user data could not be retrieved
-                return null
+                return null;
             },
         }),
     ],
@@ -49,14 +49,14 @@ export default NextAuth({
     callbacks: {
         async session({ session, token, user }) {
             // Send properties to the client, like an access_token from a provider.
-            session.accessToken = token.accessToken
-            return session
+            session.accessToken = token.accessToken;
+            return session;
         },
         async jwt({ token, user }) {
             if (user) {
-                token.user = user
+                token.user = user;
             }
-            return token
+            return token;
         },
     },
-})
+});
