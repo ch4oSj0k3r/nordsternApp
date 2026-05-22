@@ -18,10 +18,12 @@ export default async function PlayerStatsDetail({
     if (!player) notFound();
 
     return (
-        <div className="h-full">
-            <div>
+        <div className="p-4 h-full">
+            <div className="mb-4">
                 <Link href="/playerStats">
-                    <button className="btn btn-outline">Zurück</button>
+                    <button className="btn btn-sm btn-outline btn-primary">
+                        ← Zurück
+                    </button>
                 </Link>
             </div>
             <div className="h-3/4">

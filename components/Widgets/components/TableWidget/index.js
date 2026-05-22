@@ -59,7 +59,9 @@ export default function TableWidget({ table }) {
 
     return (
         <Widget>
-            <h2 className="card-title text-nsOrange">Tabelle</h2>
+            <h2 className="card-title text-primary text-lg font-semibold tracking-wide">
+                Tabelle
+            </h2>
             <Table columns={columns} data={table} />
         </Widget>
     );

@@ -44,26 +44,34 @@ export default function MatchplanClient({ matchplan, currentMatchday }: Props) {
         setMatchday((prev) => (prev === matchplan.length ? 1 : prev + 1));
 
     return (
-        <div className="grid grid-cols-1 gap-4">
-            <div className="flex justify-self-center">
-                <button className="btn text-nsBrown" onClick={goPrevious}>
-                    <GiPreviousButton className="h-5 w-5" />
-                </button>
-                <button
-                    className="btn text-nsOrange min-w-28"
-                    onClick={goCurrent}
-                >
-                    Spieltag {matchday}
-                </button>
-                <Link href="/api/ical" passHref legacyBehavior>
-                    <button className="btn text-nsOrange">
-                        <GiCalendar className="h-5 w-5 inline-block mr-2" />
-                        Export
+        <div className="p-4 grid grid-cols-1 gap-4">
+            <div className="flex justify-center">
+                <div className="join">
+                    <button
+                        className="join-item btn btn-ghost"
+                        onClick={goPrevious}
+                    >
+                        <GiPreviousButton className="h-5 w-5" />
                     </button>
-                </Link>
-                <button className="btn text-nsBrown" onClick={goNext}>
-                    <GiNextButton className="h-5 w-5" />
-                </button>
+                    <button
+                        className="join-item btn btn-primary min-w-28"
+                        onClick={goCurrent}
+                    >
+                        Spieltag {matchday}
+                    </button>
+                    <Link href="/api/ical" passHref legacyBehavior>
+                        <button className="join-item btn btn-ghost">
+                            <GiCalendar className="h-5 w-5 mr-1" />
+                            Export
+                        </button>
+                    </Link>
+                    <button
+                        className="join-item btn btn-ghost"
+                        onClick={goNext}
+                    >
+                        <GiNextButton className="h-5 w-5" />
+                    </button>
+                </div>
             </div>
             {games.map((game) => (
                 <GameWidget

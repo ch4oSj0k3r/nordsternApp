@@ -27,9 +27,9 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
     const disabled = loading || !selectedGame;
 
     return (
-        <div className="btn-group justify-self-center">
+        <div className="join justify-self-center">
             <button
-                className="btn text-nsBrown"
+                className="join-item btn btn-sm btn-outline btn-secondary"
                 onClick={() => setStats('over100')}
                 disabled={disabled}
             >
@@ -39,7 +39,7 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 100+
             </button>
             <button
-                className="btn text-nsBrown"
+                className="join-item btn btn-sm btn-outline btn-secondary"
                 onClick={() => setStats('over140')}
                 disabled={disabled}
             >
@@ -49,7 +49,7 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 140+
             </button>
             <button
-                className="btn text-nsBrown"
+                className="join-item btn btn-sm btn-outline btn-secondary"
                 onClick={() => setStats('over180')}
                 disabled={disabled}
             >
@@ -59,7 +59,7 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
                 180
             </button>
             <button
-                className="btn text-nsBrown p-2 md:p-4"
+                className="join-item btn btn-sm btn-outline btn-secondary"
                 onClick={() => setStats('highFinish')}
                 disabled={disabled}
             >
