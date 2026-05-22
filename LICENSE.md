@@ -1,5 +1,4 @@
-Copyright (c) 2026 Dein Name
-
+Copyright (c) 2026 Sven Nowitzky
 All rights reserved.
 
 No permission is granted to use, copy, modify, distribute,
