@@ -2,19 +2,26 @@
 
 import React, { useCallback, useState } from 'react';
 import { addStats } from '../../helpers';
+import { PlayerWithStats } from '../Widgets/components/PlayerWidget';
 
-function StatsButtons({ player, selectedGame, setPlayers }) {
+interface StatsButtonsProps {
+    player: PlayerWithStats;
+    selectedGame: number | null;
+    setPlayers: React.Dispatch<React.SetStateAction<PlayerWithStats[]>>;
+}
+
+function StatsButtons({ player, selectedGame, setPlayers }: StatsButtonsProps) {
     const [loading, setLoading] = useState(false);
 
     const setStats = useCallback(
-        async (type) => {
+        async (type: string) => {
             setLoading(true);
             try {
-                const updatedPlayer = await addStats({
+                const updatedPlayer = (await addStats({
                     player,
                     type,
                     gameId: selectedGame,
-                });
+                })) as PlayerWithStats;
                 setPlayers((prev) =>
                     prev.map((p) =>
                         p.id === updatedPlayer.id ? updatedPlayer : p
