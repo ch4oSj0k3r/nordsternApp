@@ -1,7 +1,17 @@
 import type { Metadata } from 'next';
+import { Space_Grotesk } from 'next/font/google';
 import Providers from './providers';
 import DrawerNavigation from '../components/Layout/DrawerNavigation';
+import Sidebar from '../components/Layout/Sidebar';
+import BottomNav from '../components/Layout/BottomNav';
 import '../styles/globals.css';
+
+const spaceGrotesk = Space_Grotesk({
+    subsets: ['latin'],
+    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-space-grotesk',
+    display: 'swap',
+});
 
 export const metadata: Metadata = {
     title: 'Team Nordstern',
@@ -29,7 +39,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="de" data-theme="nordstern">
+        <html
+            lang="de"
+            data-theme="nordstern"
+            className={spaceGrotesk.variable}
+        >
             <head>
                 <link
                     rel="apple-touch-startup-image"
@@ -182,17 +196,17 @@ export default function RootLayout({
                     media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
                 />
             </head>
-            <body>
+            <body className="font-[family-name:var(--font-space-grotesk)]">
                 <Providers>
-                    <div className="min-h-screen">
-                        <DrawerNavigation>
-                            <div className="flex min-h-screen flex-col">
-                                <div className="grow overflow-y-auto">
-                                    {children}
-                                </div>
-                            </div>
-                        </DrawerNavigation>
-                    </div>
+                    {/* Desktop Sidebar */}
+                    <Sidebar />
+                    {/* Mobile: Drawer + Header + BottomNav */}
+                    <DrawerNavigation>
+                        <main className="lg:pl-64 min-h-screen pb-16 lg:pb-0">
+                            {children}
+                        </main>
+                    </DrawerNavigation>
+                    <BottomNav />
                 </Providers>
             </body>
         </html>

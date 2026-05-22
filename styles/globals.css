@@ -6,9 +6,6 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -25,6 +22,50 @@ a {
     box-sizing: border-box;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(227, 110, 0, 0.3);
+    border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(227, 110, 0, 0.6);
+}
+
+/* DaisyUI overrides — sharp edges */
+.btn {
+    border-radius: 2px !important;
+}
+.card {
+    border-radius: 4px !important;
+}
+.input,
+.select,
+.textarea {
+    border-radius: 2px !important;
+}
+.badge {
+    border-radius: 2px !important;
+}
+.dropdown-content {
+    border-radius: 4px !important;
+}
+
+/* Orange glow utility */
+.glow-primary {
+    box-shadow: 0 0 20px rgba(227, 110, 0, 0.25);
+}
+.glow-primary-sm {
+    box-shadow: 0 0 10px rgba(227, 110, 0, 0.15);
+}
+
+/* Card title reset */
 .card-title {
     margin-bottom: 0 !important;
 }
