@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '../../../prisma/prisma';
 
 const defaultVal = {
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
             },
         });
 
+        revalidatePath('/playerStats');
         return NextResponse.json(updatedPlayer);
     } catch (e) {
         console.error('Request error', e);
