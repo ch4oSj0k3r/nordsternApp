@@ -1,16 +1,12 @@
-import { getSession } from 'next-auth/react';
 import prisma from '../prisma/prisma';
-
 import { activeTeamId, getTable } from '../helpers';
-
 import TableWidget from '../components/Widgets/components/TableWidget';
 import GameWidget from '../components/Widgets/components/GameWidget';
 
-export async function getServerSideProps(params) {
-    const session = await getSession(params);
-
+export default async function Dashboard() {
     const seasons = await prisma.season.findMany();
     const currentSeasonId = seasons[seasons.length - 1].id;
+
     const games = await prisma.game.findMany({
         include: { homeTeam: true, awayTeam: true, matchday: true },
         where: { matchday: { is: { seasonId: currentSeasonId } } },
@@ -27,12 +23,6 @@ export async function getServerSideProps(params) {
         orderBy: { date: 'asc' },
     });
 
-    return {
-        props: { session, table, nextNordsternGame }, // will be passed to the page component as props
-    };
-}
-
-export default function Dashboard({ table, session, nextNordsternGame }) {
     return (
         <div
             className={`gap-4 grid grid-cols-1 ${
@@ -45,6 +35,7 @@ export default function Dashboard({ table, session, nextNordsternGame }) {
                         <GameWidget
                             headline="Nächstes Spiel"
                             game={nextNordsternGame}
+                            editable={false}
                         />
                     </div>
                 </div>
