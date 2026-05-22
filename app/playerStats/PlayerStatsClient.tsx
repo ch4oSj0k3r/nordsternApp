@@ -1,55 +1,32 @@
-import React, { useMemo, useState } from 'react';
-import prisma from '../../prisma/prisma';
+'use client';
 
+import React, { useMemo, useState } from 'react';
 import { activeTeamId } from '../../helpers';
 import PlayerWidget from '../../components/Widgets/components/PlayerWidget';
 
-export async function getServerSideProps() {
-    const seasons = await prisma.season.findMany();
-    const currentSeasonId = seasons[seasons.length - 1].id;
-
-    const initPlayers = await prisma.player.findMany({
-        where: {
-            teamId: activeTeamId,
-            active: true,
-        },
-        include: {
-            playerStats: {
-                include: {
-                    game: {
-                        include: {
-                            matchday: true,
-                        },
-                    },
-                },
-            },
-        },
-    });
-
-    const nordsternGames = await prisma.game.findMany({
-        where: {
-            OR: [{ homeTeamId: activeTeamId }, { awayTeamId: activeTeamId }],
-            AND: [{ matchday: { is: { seasonId: currentSeasonId } } }],
-        },
-        include: { homeTeam: true, awayTeam: true, matchday: true },
-    });
-
-    return {
-        props: { currentSeasonId, seasons, initPlayers, nordsternGames }, // will be passed to the page component as props
-    };
+interface Season {
+    id: number;
+    name: string;
 }
 
-export default function PlayerStats({
+interface Props {
+    currentSeasonId: number;
+    seasons: Season[];
+    initPlayers: any[];
+    nordsternGames: any[];
+}
+
+export default function PlayerStatsClient({
     currentSeasonId,
     seasons,
     initPlayers,
     nordsternGames,
-}) {
+}: Props) {
     const [players, setPlayers] = useState(initPlayers);
     const [selectedSeason, setSelectedSeason] = useState(currentSeasonId);
-    const [hiddenPlayers, setHiddenPlayers] = useState([]);
+    const [hiddenPlayers, setHiddenPlayers] = useState<number[]>([]);
     const [showDiagram, setShowDiagram] = useState(true);
-    const [selectedGame, setSelectedGame] = useState(null);
+    const [selectedGame, setSelectedGame] = useState<number | null>(null);
 
     const visiblePlayers = useMemo(() => {
         return players.filter((player) => !hiddenPlayers.includes(player.id));
@@ -77,12 +54,10 @@ export default function PlayerStats({
 
     const gameOptions = useMemo(() => {
         return nordsternGames.map((game) => {
-            // Determine the opponent based on which team is not the active team
             const opponentName =
                 game.homeTeam.id !== activeTeamId
                     ? game.homeTeam.name
                     : game.awayTeam.name;
-            // Return the <option> element for each game
             return (
                 <option key={game.id} value={game.id}>
                     {opponentName}
@@ -91,25 +66,17 @@ export default function PlayerStats({
         });
     }, [nordsternGames]);
 
-    const togglePlayer = (id) => {
-        setHiddenPlayers((prevHiddenPlayers) => {
-            const hiddenIndex = prevHiddenPlayers.indexOf(id);
-            let newHiddenPlayers;
-            if (hiddenIndex > -1) {
-                newHiddenPlayers = prevHiddenPlayers.filter(
-                    (playerId) => playerId !== id
-                );
-            } else {
-                newHiddenPlayers = [...prevHiddenPlayers, id];
-            }
-            return newHiddenPlayers;
+    const togglePlayer = (id: number) => {
+        setHiddenPlayers((prev) => {
+            const idx = prev.indexOf(id);
+            return idx > -1 ? prev.filter((p) => p !== id) : [...prev, id];
         });
     };
 
     return (
         <div className="grid gap-4">
             <div className="grid grid-cols-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                <div className="flex flex-col md:flex-row gap-2">
                     <select
                         className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
                         value={selectedSeason}
@@ -125,12 +92,14 @@ export default function PlayerStats({
                     </select>
                     <select
                         className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
-                        value={selectedGame}
+                        value={selectedGame ?? ''}
                         onChange={(e) =>
-                            setSelectedGame(parseInt(e.target.value))
+                            setSelectedGame(
+                                e.target.value ? parseInt(e.target.value) : null
+                            )
                         }
                     >
-                        <option value={null}>Gesamt</option>
+                        <option value="">Gesamt</option>
                         {gameOptions}
                     </select>
                 </div>
@@ -167,18 +136,16 @@ export default function PlayerStats({
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {visiblePlayers.map((player) => {
-                    return (
-                        <PlayerWidget
-                            key={player.id}
-                            player={player}
-                            selectedSeason={selectedSeason}
-                            setPlayers={setPlayers}
-                            showDiagram={showDiagram}
-                            selectedGame={selectedGame}
-                        />
-                    );
-                })}
+                {visiblePlayers.map((player) => (
+                    <PlayerWidget
+                        key={player.id}
+                        player={player}
+                        selectedSeason={selectedSeason}
+                        setPlayers={setPlayers}
+                        showDiagram={showDiagram}
+                        selectedGame={selectedGame}
+                    />
+                ))}
             </div>
         </div>
     );

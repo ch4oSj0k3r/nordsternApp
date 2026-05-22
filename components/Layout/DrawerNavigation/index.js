@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar from '../Navbar';
 import Menu from '../Menu';
 import { usePathname } from 'next/navigation';
