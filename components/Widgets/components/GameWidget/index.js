@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+'use client';
 
-import Router from 'next/router';
+import React, { useState } from 'react';
 
 import {
     GiHouse,

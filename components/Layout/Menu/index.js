@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
     AiFillTrophy,
@@ -6,11 +8,11 @@ import {
     AiOutlineLogout,
     AiTwotoneCalendar,
 } from 'react-icons/ai';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Menu = ({ className = '' }) => {
-    const router = useRouter();
+    const pathname = usePathname();
     const { data: session } = useSession();
 
     const navItems = [
@@ -33,7 +35,7 @@ const Menu = ({ className = '' }) => {
 
     if (session && session.user) {
         navItems.push({
-            label: `Logout`,
+            label: 'Logout',
             icon: <AiOutlineLogout className="text-4xl" />,
             onClick: () => signOut(),
         });
@@ -55,7 +57,7 @@ const Menu = ({ className = '' }) => {
                         }
                         passHref
                         className={`${
-                            router.pathname === item.pathname
+                            pathname === item.pathname
                                 ? 'text-nsOrange'
                                 : 'hover:text-nsOrange'
                         }`}
