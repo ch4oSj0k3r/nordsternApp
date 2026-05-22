@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '../../../../prisma/prisma';
 
 export async function POST(
@@ -17,6 +18,8 @@ export async function POST(
                     awayPoints: parseInt(awayPoints),
                 },
             });
+            revalidatePath('/');
+            revalidatePath('/matchplan');
             return NextResponse.json({});
         } else {
             return NextResponse.json(
