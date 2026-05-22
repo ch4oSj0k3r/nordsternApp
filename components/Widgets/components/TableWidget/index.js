@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-
 import Widget from '../..';
 import Table from '../../../Table';
 
@@ -9,48 +8,29 @@ export default function TableWidget({ table }) {
     const columns = React.useMemo(
         () => [
             {
-                Header: () => <div style={{ textAlign: 'center' }}>#</div>,
+                Header: '#',
                 accessor: 'place',
                 Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>{props.value}.</div>
+                    <span className="font-mono text-base-content/40">
+                        {props.value}
+                    </span>
                 ),
             },
             { Header: 'Name', accessor: 'name' },
+            { Header: 'SpT', accessor: 'games' },
+            { Header: 'S', accessor: 'wins' },
+            { Header: 'N', accessor: 'losses' },
             {
-                Header: () => <div style={{ textAlign: 'center' }}>SpT</div>,
-                accessor: 'games',
-                Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>{props.value}</div>
-                ),
-            },
-            {
-                Header: () => <div style={{ textAlign: 'center' }}>S</div>,
-                accessor: 'wins',
-                Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>{props.value}</div>
-                ),
-            },
-            {
-                Header: () => <div style={{ textAlign: 'center' }}>N</div>,
-                accessor: 'losses',
-                Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>{props.value}</div>
-                ),
-            },
-            {
-                Header: () => <div style={{ textAlign: 'center' }}>Sp</div>,
+                Header: 'Sp',
                 accessor: 'winGames',
-                Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>
-                        {`${props.row.original.winGames}:${props.row.original.lossGames}`}
-                    </div>
-                ),
+                Cell: (props) =>
+                    `${props.row.original.winGames}:${props.row.original.lossGames}`,
             },
             {
-                Header: () => <div style={{ textAlign: 'center' }}>Pkt</div>,
+                Header: 'Pkt',
                 accessor: 'points',
                 Cell: (props) => (
-                    <div style={{ textAlign: 'center' }}>{props.value}</div>
+                    <span className="font-bold">{props.value}</span>
                 ),
             },
         ],
@@ -59,9 +39,12 @@ export default function TableWidget({ table }) {
 
     return (
         <Widget>
-            <h2 className="card-title text-primary text-lg font-semibold tracking-wide">
-                Tabelle
-            </h2>
+            <div className="flex items-center gap-2 mb-3">
+                <div className="w-1 h-5 bg-primary flex-shrink-0" />
+                <h2 className="font-bold text-base text-base-content tracking-tight">
+                    Tabelle
+                </h2>
+            </div>
             <Table columns={columns} data={table} />
         </Widget>
     );

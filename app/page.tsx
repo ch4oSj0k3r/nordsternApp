@@ -24,26 +24,31 @@ export default async function Dashboard() {
     });
 
     return (
-        <div className="p-4">
-            <div
-                className={`gap-4 grid grid-cols-1 ${
-                    nextNordsternGame && 'lg:grid-cols-2'
-                }`}
-            >
-                {nextNordsternGame && (
-                    <div>
-                        <GameWidget
-                            headline="Nächstes Spiel"
-                            game={nextNordsternGame}
-                            editable={false}
-                            hero
-                        />
-                    </div>
-                )}
-                <div>
-                    <TableWidget table={table} />
-                </div>
+        <div className="p-4 lg:p-6">
+            {/* Page header */}
+            <div className="mb-6">
+                <h1 className="text-2xl font-bold tracking-tight text-base-content">
+                    Dashboard
+                </h1>
+                <p className="text-sm text-base-content/40 mt-0.5">
+                    Saison-Übersicht
+                </p>
             </div>
+
+            {/* Hero: next game */}
+            {nextNordsternGame && (
+                <div className="mb-6">
+                    <GameWidget
+                        headline="Nächstes Spiel"
+                        game={nextNordsternGame}
+                        editable={false}
+                        hero
+                    />
+                </div>
+            )}
+
+            {/* Table */}
+            <TableWidget table={table} />
         </div>
     );
 }
