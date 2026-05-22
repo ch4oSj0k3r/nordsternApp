@@ -1,7 +1,6 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import Image from 'next/image';
-
 import logo from '../../../assets/img/logo.webp';
 import Menu from '../Menu';
 

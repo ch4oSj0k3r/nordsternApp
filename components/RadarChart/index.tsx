@@ -3,25 +3,38 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    Filler,
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Radar } from 'react-chartjs-2';
+import { Prisma } from '@prisma/client';
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
+    RadialLinearScale,
+    PointElement,
+    LineElement,
+    Filler,
     Tooltip,
     Legend
 );
 
-function getCSSColor(variable) {
+type PlayerStatEntry = Prisma.PlayerStatsGetPayload<object>;
+
+interface RadarChartProps {
+    playerStats: PlayerStatEntry[];
+    minify?: boolean;
+}
+
+interface ChartColors {
+    primary: string;
+    accent: string;
+}
+
+function getCSSColor(variable: string): string {
     if (typeof window === 'undefined') return '#e36e00';
     const raw = getComputedStyle(document.documentElement)
         .getPropertyValue(variable)
@@ -29,18 +42,16 @@ function getCSSColor(variable) {
     return raw ? `oklch(${raw})` : '#e36e00';
 }
 
-const BarChart = ({ playerStats, minify = false }) => {
-    const [colors, setColors] = useState({
+const RadarChart = ({ playerStats, minify = false }: RadarChartProps) => {
+    const [colors, setColors] = useState<ChartColors>({
         primary: '#e36e00',
         accent: '#a6302e',
-        baseContent: 'rgba(255,255,255,0.4)',
     });
 
     useEffect(() => {
         setColors({
             primary: getCSSColor('--p'),
             accent: getCSSColor('--a'),
-            baseContent: getCSSColor('--bc'),
         });
     }, []);
 
@@ -61,33 +72,36 @@ const BarChart = ({ playerStats, minify = false }) => {
             {
                 label: '# Treffer',
                 data: dataValues,
-                backgroundColor: colors.primary,
-                borderColor: colors.accent,
+                backgroundColor: `${colors.primary}33`,
+                borderColor: colors.primary,
                 borderWidth: 1,
             },
         ],
     };
 
     const options = {
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+        },
         scales: {
-            x: {
-                ticks: { color: colors.primary },
-                grid: { color: 'rgba(255,255,255,0.1)' },
-            },
-            y: {
-                beginAtZero: true,
-                grid: { color: 'rgba(255,255,255,0.1)' },
+            r: {
+                angleLines: { color: colors.accent },
+                grid: { color: colors.accent },
+                pointLabels: { color: colors.primary },
                 ticks: {
+                    display: !minify,
                     color: colors.primary,
+                    backdropColor: 'transparent',
                     z: 100,
                     stepSize: 1,
                 },
-                max: Math.max(...dataValues) + 5,
+                min: 0,
             },
         },
     };
 
-    return <Bar options={options} data={data} />;
+    return <Radar options={options} data={data} />;
 };
 
-export default BarChart;
+export default RadarChart;

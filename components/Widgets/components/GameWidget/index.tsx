@@ -9,18 +9,39 @@ import {
     GiCalendar,
     GiFinishLine,
 } from 'react-icons/gi';
+import { Prisma } from '@prisma/client';
 import Widget from '../..';
 import { activeTeamId, updateGame } from '../../../../helpers';
 
-export default function GameWidget({ headline, game, editable, hero = false }) {
+type GameWithTeams = Prisma.GameGetPayload<{
+    include: { homeTeam: true; awayTeam: true };
+}>;
+
+interface GameWidgetProps {
+    headline?: string;
+    game: GameWithTeams;
+    editable: boolean;
+    hero?: boolean;
+}
+
+export default function GameWidget({
+    headline,
+    game,
+    editable,
+    hero = false,
+}: GameWidgetProps) {
     const router = useRouter();
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [homePoints, setHomePoints] = useState(game?.homePoints);
-    const [awayPoints, setAwayPoints] = useState(game?.awayPoints);
+    const [error, setError] = useState<string | null>(null);
+    const [homePoints, setHomePoints] = useState<number | string | undefined>(
+        game?.homePoints ?? undefined
+    );
+    const [awayPoints, setAwayPoints] = useState<number | string | undefined>(
+        game?.awayPoints ?? undefined
+    );
 
-    if (!game) return '';
+    if (!game) return null;
 
     const date = new Date(game.date);
     const dateString = date.toLocaleDateString(undefined, {

@@ -5,32 +5,26 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { GiCalendar } from 'react-icons/gi';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { Prisma } from '@prisma/client';
 import GameWidget from '../../components/Widgets/components/GameWidget';
 
-interface Game {
-    id: number;
-    gamenumber: number;
-    homeTeam: { id: number; name: string };
-    awayTeam: { id: number; name: string };
-    date: string;
-    homePoints?: number | null;
-    awayPoints?: number | null;
-}
+type GameWithTeams = Prisma.GameGetPayload<{
+    include: { homeTeam: true; awayTeam: true };
+}>;
 
-interface Matchday {
-    matchday: number;
-    games: Game[];
-}
+type MatchdayWithGames = Prisma.MatchdayGetPayload<{
+    include: { games: { include: { homeTeam: true; awayTeam: true } } };
+}>;
 
 interface Props {
-    matchplan: Matchday[];
+    matchplan: MatchdayWithGames[];
     currentMatchday: number;
 }
 
 export default function MatchplanClient({ matchplan, currentMatchday }: Props) {
     const { data: session } = useSession();
     const [matchday, setMatchday] = useState(currentMatchday);
-    const [games, setGames] = useState<Game[]>([]);
+    const [games, setGames] = useState<GameWithTeams[]>([]);
 
     useEffect(() => {
         const md = matchplan.find((md) => md.matchday === matchday);
