@@ -1,11 +1,17 @@
 'use client';
 
 import React from 'react';
+import { Column } from 'react-table';
 import Widget from '../..';
 import Table from '../../../Table';
+import { TableRow } from '../../../../helpers';
 
-export default function TableWidget({ table }) {
-    const columns = React.useMemo(
+interface TableWidgetProps {
+    table: TableRow[];
+}
+
+export default function TableWidget({ table }: TableWidgetProps) {
+    const columns = React.useMemo<Column<TableRow>[]>(
         () => [
             {
                 Header: '#',

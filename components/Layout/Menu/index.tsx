@@ -10,12 +10,25 @@ import {
 } from 'react-icons/ai';
 import { usePathname } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import React from 'react';
 
-const Menu = ({ className = '' }) => {
+interface MenuItem {
+    label: string;
+    icon: React.ReactNode;
+    pathname?: string;
+    onClick?: () => void;
+    disabled?: boolean;
+}
+
+interface MenuProps {
+    className?: string;
+}
+
+const Menu = ({ className = '' }: MenuProps) => {
     const pathname = usePathname();
     const { data: session } = useSession();
 
-    const navItems = [
+    const navItems: MenuItem[] = [
         {
             label: 'Startseite',
             icon: <AiOutlineHome className="h-5 w-5" />,
@@ -55,7 +68,6 @@ const Menu = ({ className = '' }) => {
                         href={
                             !item.disabled && item.pathname ? item.pathname : ''
                         }
-                        passHref
                         className={`flex items-center gap-2 transition-colors ${
                             pathname === item.pathname
                                 ? 'text-primary border-b-2 border-primary rounded-none'

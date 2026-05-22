@@ -10,16 +10,23 @@ import {
     AiOutlineLogout,
     AiTwotoneCalendar,
 } from 'react-icons/ai';
+import { IconType } from 'react-icons';
+
+interface NavItem {
+    label: string;
+    icon: IconType;
+    pathname: string;
+}
+
+const navItems: NavItem[] = [
+    { label: 'Home', icon: AiOutlineHome, pathname: '/' },
+    { label: 'Spielplan', icon: AiTwotoneCalendar, pathname: '/matchplan' },
+    { label: 'Statistik', icon: AiFillTrophy, pathname: '/playerStats' },
+];
 
 export default function BottomNav() {
     const pathname = usePathname();
     const { data: session } = useSession();
-
-    const navItems = [
-        { label: 'Home', icon: AiOutlineHome, pathname: '/' },
-        { label: 'Spielplan', icon: AiTwotoneCalendar, pathname: '/matchplan' },
-        { label: 'Statistik', icon: AiFillTrophy, pathname: '/playerStats' },
-    ];
 
     return (
         <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around bg-base-200/95 backdrop-blur-md border-t border-white/5 pb-safe">

@@ -11,9 +11,16 @@ import {
     AiOutlineLogout,
     AiTwotoneCalendar,
 } from 'react-icons/ai';
+import { IconType } from 'react-icons';
 import logo from '../../../assets/img/logo.webp';
 
-const navItems = [
+interface NavItem {
+    label: string;
+    icon: IconType;
+    pathname: string;
+}
+
+const navItems: NavItem[] = [
     { label: 'Dashboard', icon: AiOutlineHome, pathname: '/' },
     { label: 'Spielplan', icon: AiTwotoneCalendar, pathname: '/matchplan' },
     { label: 'Statistik', icon: AiFillTrophy, pathname: '/playerStats' },
