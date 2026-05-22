@@ -54,11 +54,12 @@ export default function MatchplanClient({ matchplan, currentMatchday }: Props) {
                         Spieltag {matchday} von {matchplan.length}
                     </p>
                 </div>
-                <Link href="/api/ical" passHref legacyBehavior>
-                    <a className="flex items-center gap-1.5 text-xs text-base-content/40 hover:text-primary transition-colors mt-1">
-                        <GiCalendar className="h-4 w-4" />
-                        Export
-                    </a>
+                <Link
+                    href="/api/ical"
+                    className="flex items-center gap-1.5 text-xs text-base-content/40 hover:text-primary transition-colors mt-1"
+                >
+                    <GiCalendar className="h-4 w-4" />
+                    Export
                 </Link>
             </div>
 
