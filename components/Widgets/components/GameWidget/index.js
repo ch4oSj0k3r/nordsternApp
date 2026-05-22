@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     GiHouse,
     GiCityCar,
@@ -12,8 +13,10 @@ import Widget from '../..';
 import { activeTeamId, updateGame } from '../../../../helpers';
 
 export default function GameWidget({ headline, game, editable, hero = false }) {
+    const router = useRouter();
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [homePoints, setHomePoints] = useState(game?.homePoints);
     const [awayPoints, setAwayPoints] = useState(game?.awayPoints);
 
@@ -31,12 +34,21 @@ export default function GameWidget({ headline, game, editable, hero = false }) {
 
     const save = () => {
         setLoading(true);
+        setError(null);
         updateGame(game.id, { homePoints, awayPoints })
-            .then(() => {
+            .then((res) => {
                 setLoading(false);
+                if (!res.ok) {
+                    setError('Speichern fehlgeschlagen.');
+                    return;
+                }
                 setEditMode(false);
+                router.refresh();
             })
-            .catch(() => setLoading(false));
+            .catch(() => {
+                setLoading(false);
+                setError('Netzwerkfehler beim Speichern.');
+            });
     };
 
     if (loading) {
@@ -164,6 +176,7 @@ export default function GameWidget({ headline, game, editable, hero = false }) {
                         className="input input-bordered input-sm w-full focus:outline-none focus:border-primary bg-base-300"
                         onChange={(e) => setAwayPoints(e.target.value)}
                     />
+                    {error && <p className="text-xs text-error">{error}</p>}
                     <div className="flex justify-end">
                         <button
                             className="btn btn-sm btn-primary"

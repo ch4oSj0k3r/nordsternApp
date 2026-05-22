@@ -99,7 +99,7 @@ export const getTable = (games) => {
 };
 
 export const addStats = (data) => {
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/playerStats`, {
+    return fetch(`/api/playerStats`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -115,7 +115,7 @@ export const addStats = (data) => {
 };
 
 export const updateGame = (gameId, data) => {
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/${gameId}`, {
+    return fetch(`/api/game/${gameId}`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
