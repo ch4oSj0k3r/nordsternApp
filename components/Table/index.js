@@ -12,49 +12,62 @@ export default function Table({ columns, data }) {
         <div className="overflow-x-auto">
             <table className="w-full text-sm" {...getTableProps()}>
                 <thead>
-                    {headerGroups.map((headerGroup, i) => (
-                        <tr
-                            key={i}
-                            {...headerGroup.getHeaderGroupProps()}
-                            className="border-b border-white/5"
-                        >
-                            {headerGroup.headers.map((column, i) => (
-                                <th
-                                    key={i}
-                                    {...column.getHeaderProps()}
-                                    className="text-left py-2 px-2 text-xs font-semibold uppercase tracking-wider text-base-content/30"
-                                >
-                                    {column.render('Header')}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
-                        prepareRow(row);
-                        const isActive = row.original.id === activeTeamId;
+                    {headerGroups.map((headerGroup) => {
+                        const { key, ...headerGroupProps } =
+                            headerGroup.getHeaderGroupProps();
                         return (
                             <tr
-                                key={i}
-                                {...row.getRowProps()}
+                                key={key}
+                                {...headerGroupProps}
+                                className="border-b border-white/5"
+                            >
+                                {headerGroup.headers.map((column) => {
+                                    const { key, ...headerProps } =
+                                        column.getHeaderProps();
+                                    return (
+                                        <th
+                                            key={key}
+                                            {...headerProps}
+                                            className="text-left py-2 px-2 text-xs font-semibold uppercase tracking-wider text-base-content/30"
+                                        >
+                                            {column.render('Header')}
+                                        </th>
+                                    );
+                                })}
+                            </tr>
+                        );
+                    })}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row) => {
+                        prepareRow(row);
+                        const isActive = row.original.id === activeTeamId;
+                        const { key, ...rowProps } = row.getRowProps();
+                        return (
+                            <tr
+                                key={key}
+                                {...rowProps}
                                 className={`border-b border-white/5 transition-colors ${
                                     isActive
                                         ? 'bg-primary/10 text-primary'
                                         : 'hover:bg-white/3 text-base-content/80'
                                 }`}
                             >
-                                {row.cells.map((cell, i) => (
-                                    <td
-                                        key={i}
-                                        {...cell.getCellProps()}
-                                        className={`py-2 px-2 ${
-                                            isActive ? 'font-semibold' : ''
-                                        }`}
-                                    >
-                                        {cell.render('Cell')}
-                                    </td>
-                                ))}
+                                {row.cells.map((cell) => {
+                                    const { key, ...cellProps } =
+                                        cell.getCellProps();
+                                    return (
+                                        <td
+                                            key={key}
+                                            {...cellProps}
+                                            className={`py-2 px-2 ${
+                                                isActive ? 'font-semibold' : ''
+                                            }`}
+                                        >
+                                            {cell.render('Cell')}
+                                        </td>
+                                    );
+                                })}
                             </tr>
                         );
                     })}
