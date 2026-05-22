@@ -38,7 +38,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
-    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async session({ session, token }) {
             (session as any).accessToken = (token as any).accessToken;
