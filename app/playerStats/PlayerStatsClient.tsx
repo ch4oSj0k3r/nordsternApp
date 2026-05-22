@@ -76,7 +76,7 @@ export default function PlayerStatsClient({
     return (
         <div className="grid gap-4">
             <div className="grid grid-cols-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                <div className="flex flex-col md:flex-row gap-2">
                     <select
                         className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
                         value={selectedSeason}
