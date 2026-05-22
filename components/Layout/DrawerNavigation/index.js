@@ -4,6 +4,8 @@ import Navbar from '../Navbar';
 import Menu from '../Menu';
 import { usePathname } from 'next/navigation';
 import { createRef, useEffect } from 'react';
+import Image from 'next/image';
+import logo from '../../../assets/img/logo.webp';
 
 const DrawerNavigation = ({ children }) => {
     const pathname = usePathname();
@@ -27,15 +29,16 @@ const DrawerNavigation = ({ children }) => {
                 <Navbar />
                 {children}
             </div>
-            <div className="drawer-side">
+            <div className="drawer-side z-40">
                 <label
                     htmlFor="drawer-navigation"
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 />
                 <div className="w-80 min-h-full bg-base-200">
-                    <div className="border-b-4 p-4">
-                        <h1 className="text-xl text-nsOrange font-bold">
+                    <div className="flex items-center gap-3 border-b border-base-content/10 p-4">
+                        <Image src={logo} alt="logo" width={36} height={36} />
+                        <h1 className="text-xl text-primary font-bold tracking-wide">
                             Team Nordstern
                         </h1>
                     </div>

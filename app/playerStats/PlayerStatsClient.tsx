@@ -42,7 +42,7 @@ export default function PlayerStatsClient({
                     <div className="flex-none">
                         <input
                             type="checkbox"
-                            className="checkbox"
+                            className="checkbox checkbox-primary checkbox-sm"
                             checked={!hiddenPlayers.includes(player.id)}
                             onChange={() => togglePlayer(player.id)}
                         />
@@ -74,11 +74,11 @@ export default function PlayerStatsClient({
     };
 
     return (
-        <div className="grid gap-4">
-            <div className="grid grid-cols-2">
-                <div className="flex flex-col md:flex-row gap-2">
+        <div className="p-4 grid gap-4">
+            <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                     <select
-                        className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
+                        className="select select-bordered select-sm focus:outline-none focus:border-primary"
                         value={selectedSeason}
                         onChange={(e) =>
                             setSelectedSeason(parseInt(e.target.value))
@@ -91,7 +91,7 @@ export default function PlayerStatsClient({
                         ))}
                     </select>
                     <select
-                        className="select select-bordered border-nsOrange w-full max-w-xs focus:outline-none focus:border-nsOrange"
+                        className="select select-bordered select-sm focus:outline-none focus:border-primary"
                         value={selectedGame ?? ''}
                         onChange={(e) =>
                             setSelectedGame(
@@ -103,27 +103,29 @@ export default function PlayerStatsClient({
                         {gameOptions}
                     </select>
                 </div>
-                <div className="dropdown dropdown-end justify-self-end">
+                <div className="dropdown dropdown-end">
                     <div
                         tabIndex={0}
                         role="button"
-                        className="btn btn-link m-1 cursor-pointer text-nsRed no-underline"
+                        className="btn btn-sm btn-outline btn-accent"
                     >
                         Filter
                     </div>
                     <ul
                         tabIndex={0}
-                        className="border dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                        className="dropdown-content z-[1] menu p-2 shadow-lg bg-base-200 border border-base-content/10 rounded-box w-56 mt-1"
                     >
                         {playerOptions}
-                        <hr />
+                        <li className="divider my-1" />
                         <li>
                             <a className="flex">
-                                <div className="flex-1">Diagramm anzeigen</div>
+                                <div className="flex-1 text-sm">
+                                    Diagramm anzeigen
+                                </div>
                                 <div className="flex-none">
                                     <input
                                         type="checkbox"
-                                        className="checkbox"
+                                        className="checkbox checkbox-primary checkbox-sm"
                                         checked={showDiagram}
                                         onChange={() =>
                                             setShowDiagram(!showDiagram)

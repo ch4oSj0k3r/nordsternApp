@@ -13,16 +13,20 @@ export default function Table({ columns, data }) {
         });
 
     return (
-        <div>
+        <div className="overflow-x-auto">
             <table
-                className="table table-compact sm:table-normal table-zebra w-full"
+                className="table table-xs sm:table-sm table-zebra w-full"
                 {...getTableProps()}
             >
                 <thead>
                     {headerGroups.map((headerGroup, i) => (
                         <tr key={i} {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column, i) => (
-                                <th key={i} {...column.getHeaderProps()}>
+                                <th
+                                    key={i}
+                                    {...column.getHeaderProps()}
+                                    className="text-base-content/60 text-xs uppercase tracking-wide"
+                                >
                                     {column.render('Header')}
                                 </th>
                             ))}
@@ -38,7 +42,7 @@ export default function Table({ columns, data }) {
                                 {...row.getRowProps()}
                                 className={`${
                                     row.original.id === activeTeamId
-                                        ? 'text-nsRed font-bold'
+                                        ? 'text-accent font-bold'
                                         : ''
                                 }`}
                             >
@@ -47,7 +51,7 @@ export default function Table({ columns, data }) {
                                         <td
                                             key={i}
                                             {...cell.getCellProps()}
-                                            className="max-w-20 lg:max-w-full px-1 md:px-4 overflow-x-auto"
+                                            className="px-1 md:px-4"
                                         >
                                             {cell.render('Cell')}
                                         </td>

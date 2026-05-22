@@ -1,9 +1,11 @@
 import React from 'react';
 
-export default function Widget({ children }) {
+export default function Widget({ children, className = '' }) {
     return (
-        <div className="card sm:card-normal w-full border">
-            <div className="card-body p-2">{children}</div>
+        <div
+            className={`card w-full bg-base-200 shadow-md hover:shadow-lg transition-shadow duration-200 ${className}`}
+        >
+            <div className="card-body p-4">{children}</div>
         </div>
     );
 }

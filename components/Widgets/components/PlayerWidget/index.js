@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 
@@ -18,7 +18,6 @@ const PlayerWidget = ({
     selectedSeason,
 }) => {
     const { data: session } = useSession();
-    const [open, setOpen] = useState(true);
 
     const stats = useMemo(() => {
         let stats =
@@ -37,24 +36,16 @@ const PlayerWidget = ({
 
     return (
         <Widget>
-            <div
-                tabIndex={0}
-                className={`collapse md:collapse-open ${
-                    open ? 'collapse-open' : 'collapse-close'
-                }`}
-            >
-                <div
-                    className="flex items-center collapse-title cursor-pointer md:cursor-default"
-                    onClick={() => setOpen(!open)}
-                >
-                    <div className="grow">
-                        <h2 className="card-title text-nsOrange">{`${player.firstname} ${player.lastname} (${player.playernumber})`}</h2>
-                    </div>
+            <div tabIndex={0} className="collapse collapse-arrow">
+                <div className="collapse-title p-0 min-h-0">
+                    <h2 className="card-title text-primary text-base font-semibold tracking-wide">
+                        {`${player.firstname} ${player.lastname} (${player.playernumber})`}
+                    </h2>
                 </div>
                 {((session && session.user) || showDiagram) && (
-                    <div className="collapse-content">
+                    <div className="collapse-content px-0">
                         {session && session.user && (
-                            <div className="grid mb-4">
+                            <div className="grid mb-4 mt-2">
                                 <StatsButtons
                                     player={player}
                                     setPlayers={setPlayers}
@@ -63,7 +54,7 @@ const PlayerWidget = ({
                             </div>
                         )}
                         {showDiagram && (
-                            <div>
+                            <div className="bg-base-300 rounded-xl p-3 mt-2">
                                 <BarChart playerStats={stats} minify />
                             </div>
                         )}

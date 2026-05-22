@@ -24,24 +24,25 @@ export default async function Dashboard() {
     });
 
     return (
-        <div
-            className={`gap-4 grid grid-cols-1 ${
-                nextNordsternGame && 'lg:grid-cols-2'
-            }`}
-        >
-            {nextNordsternGame && (
-                <div>
-                    <div className="grid grid-cols-1 gap-4">
+        <div className="p-4">
+            <div
+                className={`gap-4 grid grid-cols-1 ${
+                    nextNordsternGame && 'lg:grid-cols-2'
+                }`}
+            >
+                {nextNordsternGame && (
+                    <div>
                         <GameWidget
                             headline="Nächstes Spiel"
                             game={nextNordsternGame}
                             editable={false}
+                            hero
                         />
                     </div>
+                )}
+                <div>
+                    <TableWidget table={table} />
                 </div>
-            )}
-            <div>
-                <TableWidget table={table} />
             </div>
         </div>
     );

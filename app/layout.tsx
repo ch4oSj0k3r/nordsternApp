@@ -29,7 +29,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="de">
+        <html lang="de" data-theme="nordstern">
             <head>
                 <link
                     rel="apple-touch-startup-image"
@@ -184,12 +184,9 @@ export default function RootLayout({
             </head>
             <body>
                 <Providers>
-                    <div
-                        data-theme="dark"
-                        className="container mx-auto h-screen"
-                    >
+                    <div className="min-h-screen">
                         <DrawerNavigation>
-                            <div className="flex h-screen flex-col">
+                            <div className="flex min-h-screen flex-col">
                                 <div className="grow overflow-y-auto">
                                     {children}
                                 </div>
