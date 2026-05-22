@@ -62,8 +62,30 @@ export default function MatchplanClient({ matchplan, currentMatchday }: Props) {
                 </Link>
             </div>
 
-            {/* Matchday navigation */}
-            <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-1">
+            {/* Mobile navigation */}
+            <div className="flex lg:hidden items-center justify-between mb-6">
+                <button
+                    className="btn btn-sm bg-base-200 border-white/10 hover:bg-base-300 hover:border-primary/30 text-base-content/60"
+                    onClick={goPrevious}
+                >
+                    <MdChevronLeft className="h-4 w-4" />
+                </button>
+                <span className="text-sm font-semibold text-base-content">
+                    Spieltag {matchday}{' '}
+                    <span className="text-base-content/30">
+                        / {matchplan.length}
+                    </span>
+                </span>
+                <button
+                    className="btn btn-sm bg-base-200 border-white/10 hover:bg-base-300 hover:border-primary/30 text-base-content/60"
+                    onClick={goNext}
+                >
+                    <MdChevronRight className="h-4 w-4" />
+                </button>
+            </div>
+
+            {/* Desktop navigation — pill row */}
+            <div className="hidden lg:flex items-center gap-2 mb-6 overflow-x-auto pb-1">
                 <button
                     className="btn btn-sm bg-base-200 border-white/10 hover:bg-base-300 hover:border-primary/30 text-base-content/60 flex-shrink-0"
                     onClick={goPrevious}
