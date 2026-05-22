@@ -1,7 +1,26 @@
+import { Prisma } from '@prisma/client';
+
 export const activeTeamId = 6;
 
-export const getTable = (games) => {
-    let table = [];
+export type GameForTable = Prisma.GameGetPayload<{
+    include: { homeTeam: true; awayTeam: true };
+}> & { matchday?: { seasonId: number } };
+
+export type TableRow = {
+    place: number;
+    id: number;
+    name: string;
+    games: number;
+    points: number;
+    wins: number;
+    losses: number;
+    winGames: number;
+    lossGames: number;
+    diffGames: number;
+};
+
+export const getTable = (games: GameForTable[]): TableRow[] => {
+    let table: Omit<TableRow, 'place'>[] = [];
     games.forEach((game) => {
         let homePoints = 0;
         let awayPoints = 0;
@@ -30,9 +49,9 @@ export const getTable = (games) => {
             home.games += homePoints || awayPoints ? 1 : 0;
             home.wins += homePoints >= 2 ? 1 : 0;
             home.losses += awayPoints >= 2 ? 1 : 0;
-            home.winGames += game.homePoints;
-            home.lossGames += game.awayPoints;
-            home.diffGames += game.homePoints - game.awayPoints;
+            home.winGames += game.homePoints ?? 0;
+            home.lossGames += game.awayPoints ?? 0;
+            home.diffGames += (game.homePoints ?? 0) - (game.awayPoints ?? 0);
         } else {
             table.push({
                 id: game.homeTeamId,
@@ -41,9 +60,9 @@ export const getTable = (games) => {
                 points: game.penalty ? 0 : homePoints,
                 wins: homePoints >= 2 ? 1 : 0,
                 losses: awayPoints >= 2 ? 1 : 0,
-                winGames: game.homePoints,
-                lossGames: game.awayPoints,
-                diffGames: game.homePoints - game.awayPoints,
+                winGames: game.homePoints ?? 0,
+                lossGames: game.awayPoints ?? 0,
+                diffGames: (game.homePoints ?? 0) - (game.awayPoints ?? 0),
             });
         }
         let awayIndex = table.findIndex((team) => team.id === game.awayTeamId);
@@ -53,9 +72,9 @@ export const getTable = (games) => {
             away.games += homePoints || awayPoints ? 1 : 0;
             away.wins += awayPoints >= 2 ? 1 : 0;
             away.losses += homePoints >= 2 ? 1 : 0;
-            away.winGames += game.awayPoints;
-            away.lossGames += game.homePoints;
-            away.diffGames += game.awayPoints - game.homePoints;
+            away.winGames += game.awayPoints ?? 0;
+            away.lossGames += game.homePoints ?? 0;
+            away.diffGames += (game.awayPoints ?? 0) - (game.homePoints ?? 0);
         } else {
             table.push({
                 id: game.awayTeamId,
@@ -64,41 +83,31 @@ export const getTable = (games) => {
                 points: game.penalty ? 0 : awayPoints,
                 wins: awayPoints >= 2 ? 1 : 0,
                 losses: homePoints >= 2 ? 1 : 0,
-                winGames: game.awayPoints,
-                lossGames: game.homePoints,
-                diffGames: game.awayPoints - game.homePoints,
+                winGames: game.awayPoints ?? 0,
+                lossGames: game.homePoints ?? 0,
+                diffGames: (game.awayPoints ?? 0) - (game.homePoints ?? 0),
             });
         }
     });
 
     table.sort((i, j) => {
-        if (i.points > j.points) {
-            return -1;
-        }
-        if (i.points < j.points) {
-            return 1;
-        }
-        if (i.games > j.games) {
-            return -1;
-        }
-        if (i.games < j.games) {
-            return 1;
-        }
-        if (i.diffGames < j.diffGames) {
-            return 1;
-        }
-        if (i.diffGames > j.diffGames) {
-            return -1;
-        }
+        if (i.points > j.points) return -1;
+        if (i.points < j.points) return 1;
+        if (i.games > j.games) return -1;
+        if (i.games < j.games) return 1;
+        if (i.diffGames < j.diffGames) return 1;
+        if (i.diffGames > j.diffGames) return -1;
         return i.winGames > j.winGames ? -1 : 1;
     });
 
-    table = table.map((team, index) => ({ place: index + 1, ...team }));
-
-    return table;
+    return table.map((team, index) => ({ place: index + 1, ...team }));
 };
 
-export const addStats = (data) => {
+export const addStats = (data: {
+    player: { id: number };
+    type: string;
+    gameId: number | null;
+}): Promise<unknown> => {
     return fetch(`/api/playerStats`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -106,7 +115,13 @@ export const addStats = (data) => {
     }).then((res) => res.json());
 };
 
-export const updateGame = (gameId, data) => {
+export const updateGame = (
+    gameId: number,
+    data: {
+        homePoints: string | number | undefined;
+        awayPoints: string | number | undefined;
+    }
+): Promise<Response> => {
     return fetch(`/api/game/${gameId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

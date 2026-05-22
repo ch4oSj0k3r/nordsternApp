@@ -3,10 +3,27 @@
 import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
+import { Prisma } from '@prisma/client';
 import Widget from '../..';
 import StatsButtons from '../../../StatsButtons';
 
 const BarChart = dynamic(() => import('../../../BarChart'), { ssr: false });
+
+export type PlayerWithStats = Prisma.PlayerGetPayload<{
+    include: {
+        playerStats: {
+            include: { game: { include: { matchday: true } } };
+        };
+    };
+}>;
+
+interface PlayerWidgetProps {
+    player: PlayerWithStats;
+    setPlayers: React.Dispatch<React.SetStateAction<PlayerWithStats[]>>;
+    showDiagram: boolean;
+    selectedGame: number | null;
+    selectedSeason: number;
+}
 
 const PlayerWidget = ({
     player,
@@ -14,7 +31,7 @@ const PlayerWidget = ({
     showDiagram,
     selectedGame,
     selectedSeason,
-}) => {
+}: PlayerWidgetProps) => {
     const { data: session } = useSession();
 
     const stats = useMemo(() => {

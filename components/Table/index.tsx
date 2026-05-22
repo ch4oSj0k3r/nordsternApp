@@ -1,10 +1,16 @@
 'use client';
 
 import React from 'react';
-import { useTable } from 'react-table';
+import { useTable, Column } from 'react-table';
 import { activeTeamId } from '../../helpers';
+import { TableRow } from '../../helpers';
 
-export default function Table({ columns, data }) {
+interface TableProps {
+    columns: Column<TableRow>[];
+    data: TableRow[];
+}
+
+export default function Table({ columns, data }: TableProps) {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({ columns, data });
 
