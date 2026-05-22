@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 
 import Image from 'next/image';
 
-import logo from '../../../assets/img/logo.png';
+import logo from '../../../assets/img/logo.webp';
 import Menu from '../Menu';
 
 export default function Navbar() {
@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="w-full navbar border-b-4 mb-2 md:mb-4">
             <div className="flex-none hidden lg:block">
                 <div className="w-24 md:w-32">
-                    <Image src={logo} alt="logo" />
+                    <Image src={logo} alt="logo" width={128} height={128} />
                 </div>
             </div>
             <div className="flex-1 px-2 mx-2">
