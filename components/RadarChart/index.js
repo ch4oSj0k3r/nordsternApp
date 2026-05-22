@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -21,7 +21,27 @@ ChartJS.register(
     Legend
 );
 
+function getCSSColor(variable) {
+    if (typeof window === 'undefined') return '#e36e00';
+    const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue(variable)
+        .trim();
+    return raw ? `oklch(${raw})` : '#e36e00';
+}
+
 const RadarChart = ({ playerStats, minify = false }) => {
+    const [colors, setColors] = useState({
+        primary: '#e36e00',
+        accent: '#a6302e',
+    });
+
+    useEffect(() => {
+        setColors({
+            primary: getCSSColor('--p'),
+            accent: getCSSColor('--a'),
+        });
+    }, []);
+
     const dataValues = useMemo(() => {
         const stats = [0, 0, 0, 0];
         for (const stat of playerStats) {
@@ -39,8 +59,8 @@ const RadarChart = ({ playerStats, minify = false }) => {
             {
                 label: '# Treffer',
                 data: dataValues,
-                backgroundColor: 'rgba(227, 110, 0, .2)',
-                borderColor: 'rgb(227, 110, 0)',
+                backgroundColor: `${colors.primary}33`,
+                borderColor: colors.primary,
                 borderWidth: 1,
             },
         ],
@@ -49,25 +69,17 @@ const RadarChart = ({ playerStats, minify = false }) => {
     const options = {
         maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: false,
-            },
+            legend: { display: false },
         },
         scales: {
             r: {
-                angleLines: {
-                    color: '#a6302e',
-                },
-                grid: {
-                    color: '#a6302e',
-                },
-                pointLabels: {
-                    color: '#e36e00',
-                },
+                angleLines: { color: colors.accent },
+                grid: { color: colors.accent },
+                pointLabels: { color: colors.primary },
                 ticks: {
                     display: !minify,
-                    color: '#e36e00',
-                    backdropColor: '#000000',
+                    color: colors.primary,
+                    backdropColor: 'transparent',
                     z: 100,
                     stepSize: 1,
                 },

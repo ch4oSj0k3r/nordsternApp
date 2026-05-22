@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -21,7 +21,29 @@ ChartJS.register(
     Legend
 );
 
+function getCSSColor(variable) {
+    if (typeof window === 'undefined') return '#e36e00';
+    const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue(variable)
+        .trim();
+    return raw ? `oklch(${raw})` : '#e36e00';
+}
+
 const BarChart = ({ playerStats, minify = false }) => {
+    const [colors, setColors] = useState({
+        primary: '#e36e00',
+        accent: '#a6302e',
+        baseContent: 'rgba(255,255,255,0.4)',
+    });
+
+    useEffect(() => {
+        setColors({
+            primary: getCSSColor('--p'),
+            accent: getCSSColor('--a'),
+            baseContent: getCSSColor('--bc'),
+        });
+    }, []);
+
     const dataValues = useMemo(() => {
         const stats = [0, 0, 0, 0];
         for (const stat of playerStats) {
@@ -39,34 +61,24 @@ const BarChart = ({ playerStats, minify = false }) => {
             {
                 label: '# Treffer',
                 data: dataValues,
-                backgroundColor: '#e36e00',
-                borderColor: '#a6302e',
+                backgroundColor: colors.primary,
+                borderColor: colors.accent,
                 borderWidth: 1,
             },
         ],
     };
 
     const options = {
-        legend: {
-            fontColor: 'red',
-        },
         scales: {
             x: {
-                ticks: {
-                    color: '#e36e00',
-                },
-                grid: {
-                    color: 'white',
-                },
+                ticks: { color: colors.primary },
+                grid: { color: 'rgba(255,255,255,0.1)' },
             },
             y: {
                 beginAtZero: true,
-                grid: {
-                    color: 'white',
-                },
+                grid: { color: 'rgba(255,255,255,0.1)' },
                 ticks: {
-                    color: '#e36e00',
-                    backdropColor: '#000000',
+                    color: colors.primary,
                     z: 100,
                     stepSize: 1,
                 },
