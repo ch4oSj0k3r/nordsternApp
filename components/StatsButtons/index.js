@@ -9,16 +9,22 @@ function StatsButtons({ player, selectedGame, setPlayers }) {
     const setStats = useCallback(
         async (type) => {
             setLoading(true);
-            await addStats({ player, type, gameId: selectedGame }).then(
-                (updatedPlayer) => {
-                    setPlayers((prev) =>
-                        prev.map((p) =>
-                            p.id === updatedPlayer.id ? updatedPlayer : p
-                        )
-                    );
-                    setLoading(false);
-                }
-            );
+            try {
+                const updatedPlayer = await addStats({
+                    player,
+                    type,
+                    gameId: selectedGame,
+                });
+                setPlayers((prev) =>
+                    prev.map((p) =>
+                        p.id === updatedPlayer.id ? updatedPlayer : p
+                    )
+                );
+            } catch (e) {
+                console.error('Fehler beim Speichern der Statistik:', e);
+            } finally {
+                setLoading(false);
+            }
         },
         [player, selectedGame, setPlayers]
     );
