@@ -1,7 +1,25 @@
 import NextAuth from 'next-auth';
+import type { DefaultSession } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import Credentials from 'next-auth/providers/credentials';
-import sha256 from 'crypto-js/sha256';
+import bcrypt from 'bcryptjs';
 import prisma from './prisma/prisma';
+
+declare module 'next-auth' {
+    interface Session extends DefaultSession {
+        user: {
+            id: string;
+            username?: string | null;
+        } & DefaultSession['user'];
+    }
+}
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        id?: string;
+        username?: string | null;
+    }
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [
@@ -27,9 +45,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 });
 
                 if (
-                    user &&
-                    user.password ===
-                        sha256(credentials.password as string).toString()
+                    user?.password &&
+                    (await bcrypt.compare(
+                        credentials.password as string,
+                        user.password
+                    ))
                 ) {
                     const { password, ...userWithoutPassword } = user;
                     return userWithoutPassword;
@@ -40,12 +60,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ],
     callbacks: {
         async session({ session, token }) {
-            (session as any).accessToken = (token as any).accessToken;
+            if (token.id) session.user.id = token.id;
+            if (token.username !== undefined)
+                session.user.username = token.username;
             return session;
         },
         async jwt({ token, user }) {
             if (user) {
-                (token as any).user = user;
+                token.id = user.id;
+                token.username = (
+                    user as { username?: string | null }
+                ).username;
             }
             return token;
         },

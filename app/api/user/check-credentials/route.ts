@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import sha256 from 'crypto-js/sha256';
+import bcrypt from 'bcryptjs';
 import prisma from '../../../../prisma/prisma';
 
 export async function POST(req: NextRequest) {
@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        if (user && user.password === sha256(body.password).toString()) {
+        if (
+            user?.password &&
+            (await bcrypt.compare(body.password, user.password))
+        ) {
             const { password, ...userWithoutPassword } = user;
             return NextResponse.json(userWithoutPassword);
         } else {
