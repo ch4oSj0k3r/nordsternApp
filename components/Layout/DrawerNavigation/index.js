@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -23,7 +23,7 @@ const navItems = [
 
 const DrawerNavigation = ({ children }) => {
     const pathname = usePathname();
-    const navigationToggler = createRef();
+    const navigationToggler = useRef(null);
     const { data: session } = useSession();
 
     useEffect(() => {

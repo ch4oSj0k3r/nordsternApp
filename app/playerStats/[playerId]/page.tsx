@@ -11,7 +11,7 @@ export default async function PlayerStatsDetail({
 }) {
     const { playerId } = await params;
 
-    const player = await prisma.player.findFirst({
+    const player = await prisma.player.findUnique({
         where: { id: parseInt(playerId) },
         include: { playerStats: true },
     });
